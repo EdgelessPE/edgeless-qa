@@ -6,6 +6,7 @@ import {genMeta} from "./meta";
 import {getShortcuts, spawnShortcut} from "./shortcut";
 import {EndReq, Task} from "../types";
 import {genReadme} from "./readme";
+import path from "path";
 
 async function runner(task:Task):Promise<EndReq['result']> {
     // 下载测试包
@@ -15,7 +16,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const nepPath=dRes.unwrap()
 
     // 安装
-    const iRes=await eptInstall(nepPath)
+    const iRes=await eptInstall(path.join(__dirname,"..",nepPath))
     if(iRes.err) return iRes
     const installedPath=iRes.unwrap()
 
