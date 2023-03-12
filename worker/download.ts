@@ -2,6 +2,7 @@ import Downloader from "nodejs-file-downloader"
 import {Err, Ok, Result} from "ts-results";
 import path from "path";
 import fs from "fs";
+import {MASTER_ADDRESS} from "./constants";
 
 async function download(url:string,saveToDir:string,saveAsName:string):Promise<Result<null, string>> {
     const target=path.join(saveToDir,saveAsName)
@@ -9,7 +10,7 @@ async function download(url:string,saveToDir:string,saveAsName:string):Promise<R
         fs.unlinkSync(target)
     }
     const downloader = new Downloader({
-        url,
+        url:MASTER_ADDRESS+url,
         directory: saveToDir,
         onBeforeSave: () => {
             return saveAsName
