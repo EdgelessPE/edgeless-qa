@@ -10,16 +10,16 @@ const taskManager=new TaskManager(TASK_DIR)
 
 app.use(bodyParser.json())
 app.get("/start",(req,res)=>{
-    start(taskManager).then(res.json)
+    start(taskManager).then(opt=>res.json(opt))
 })
 app.use('/storage',express.static(TASK_DIR))
 app.post('/takeShot',(req,res)=>{
     const body:TakeShotReq=req.body
-    takeShot(body).then(res.json)
+    takeShot(body).then(r=>res.json(r))
 })
 app.post("/end",async (req,res)=>{
     const body:EndReq=req.body
-    end(body,taskManager).then(res.json)
+    end(body,taskManager).then(r=>res.json(r))
 })
 
 app.listen(PORT,() => {

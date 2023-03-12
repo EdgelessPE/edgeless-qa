@@ -12,7 +12,7 @@ export interface StartRes {
 }
 
 interface Meta {
-
+    name:string
 }
 
 export interface EndReq {

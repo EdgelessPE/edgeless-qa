@@ -27,8 +27,10 @@ async function downloadEpt(url:string) {
     return download(url,"./ept","ept.exe")
 }
 
-async function downloadNep(url:string,category:string,name:string) {
-    return download(url,path.join("./downloaded",category),name)
+async function downloadNep(url:string,category:string,name:string):Promise<Result<string, string>> {
+    const res=await download(url,path.join("./downloaded",category),name)
+    if(res.err) return res
+    return new Ok(path.join("./downloaded",category,name))
 }
 
 export {
