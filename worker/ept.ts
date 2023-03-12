@@ -4,9 +4,9 @@ import path from "path";
 
 async function exec(cmd:string,cwd?:string):Promise<Result<null, string>> {
     return new Promise((resolve)=>{
-        cp.exec(cmd,{cwd},(error, stdout, stderr)=>{
+        cp.exec(cmd,{cwd},(error, stdout)=>{
             if(error){
-                resolve(new Err(`Error:Failed to exec cmd '${cmd}' : ${stderr}`))
+                resolve(new Err(`Error:Failed to exec cmd '${cmd}' : ${stdout}`))
             }else{
                 resolve(new Ok(null))
             }
