@@ -6,6 +6,11 @@ export interface Task {
     download:string
 }
 
+export interface StartRes {
+    task:Task
+    eptDownload?:string
+}
+
 interface Meta {
 
 }

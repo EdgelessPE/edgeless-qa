@@ -8,8 +8,10 @@ function getTasks(storage: string): Task[] {
     let res: Task[] = []
 
     for (const category of list) {
+        const cateDir=path.join(storage, category)
+        if(fs.statSync(cateDir).isFile()) continue
         res = res.concat(
-            fs.readdirSync(path.join(storage, category))
+            fs.readdirSync(cateDir)
                 .map(fileName => ({
                     name: fileName,
                     category,
