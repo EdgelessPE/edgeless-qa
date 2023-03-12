@@ -5,12 +5,6 @@ import {Err, Result} from "ts-results";
 import {takeShot} from "./network";
 import {Task} from "../types";
 
-async function sleep(timeout:number) {
-    return new Promise((resolve)=>{
-        setTimeout(resolve,timeout)
-    })
-}
-
 function getShortcuts():string[] {
     return fs.readdirSync(DESKTOP_LOCATION)
         .filter(name=>name.endsWith(".lnk"))
@@ -20,7 +14,6 @@ function getShortcuts():string[] {
 async function spawnShortcut(p:string,task:Task):Promise<Result<string, string>> {
     return new Promise((resolve)=>{
         cp.exec(`explorer "${p}"`,async () => {
-            await sleep(10000)
             const sRes=await takeShot({name: task.name, category: task.category, stage: "onRun"})
             resolve(sRes)
         })

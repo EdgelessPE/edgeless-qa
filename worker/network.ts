@@ -2,6 +2,7 @@ import axios from "axios";
 import {Err, None, Ok, Option, Result, Some} from "ts-results";
 import {EndReq, StartRes, TakeShotReq} from "../types";
 import {MASTER_ADDRESS} from "./constants";
+import {sleep} from "./utils";
 
 function tsResults(raw:object):any {
     if(!("val" in raw)){
@@ -40,6 +41,7 @@ async function start():Promise<Option<StartRes>> {
 }
 
 async function takeShot(req:TakeShotReq):Promise<Result<string, string>> {
+    await sleep(5000)
     return post(MASTER_ADDRESS+"/takeShot",req)
 }
 

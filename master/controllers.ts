@@ -73,11 +73,14 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
 
     // 步进任务队列
     if(taskManager.finish()){
+        console.log("Info:Next")
         const lRes=await beginATask(taskManager)
         if(lRes.err){
             console.log(`Error:Failed to begin another task : ${JSON.stringify(lRes.val,null,2)}`)
             return new Ok(null)
         }
+    }else{
+        console.log("Info:End")
     }
 
     return new Ok(null)
