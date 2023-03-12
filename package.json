@@ -1,0 +1,23 @@
+{
+  "name": "edgeless-qa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "L0serj3rry <dsyourshy@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "master": "tsnd --respawn master/index.ts",
+    "worker": "tsnd --respawn worker/index.ts"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/multer": "^1.4.7",
+    "ts-node-dev": "^2.0.0"
+  }
+}
