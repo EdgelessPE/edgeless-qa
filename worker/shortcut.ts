@@ -13,13 +13,9 @@ function getShortcuts():string[] {
 // 返回截图
 async function spawnShortcut(p:string,task:Task):Promise<Result<string, string>> {
     return new Promise((resolve)=>{
-        const handler=cp.exec(`explorer "${p}"`,async (error) => {
-            if (error) {
-                resolve(new Err(`Error:Failed to spawn shortcut ${p} : ${JSON.stringify(error)}`))
-            } else {
-                resolve(await takeShot({name: task.name, category: task.category, stage: "onRun"}))
-                handler.kill()
-            }
+        cp.exec(`explorer "${p}"`,async () => {
+            const sRes=await takeShot({name: task.name, category: task.category, stage: "onRun"})
+            resolve(sRes)
         })
     })
 }
