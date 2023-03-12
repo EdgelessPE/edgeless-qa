@@ -50,18 +50,19 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
     }
     const reportDir=getReportDir(body.category,body.name)
 
-    // 处理失败
+    // 保存数据
     const {result}=body
     if(result.err){
+        // 处理失败
         fs.writeFileSync(path.join(reportDir,"Error.txt"),result.val)
         console.log(`Error:Worker returned failure : ${result.val}`)
         return new Ok(null)
+    }else{
+        // 处理成功
+        const {readme,meta}=result.val
+        fs.writeFileSync(path.join(reportDir,"README.md"),readme)
+        fs.writeFileSync(path.join(reportDir,"meta.json"),JSON.stringify(meta,null,2))
     }
-
-    // 保存数据
-    const {readme,meta}=result.val
-    fs.writeFileSync(path.join(reportDir,"README.md"),readme)
-    fs.writeFileSync(path.join(reportDir,"meta.json"),JSON.stringify(meta,null,2))
 
     // 关闭虚拟机
     const sRes=await stopVM()
