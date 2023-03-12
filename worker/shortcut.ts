@@ -20,8 +20,8 @@ function getShortcuts():string[] {
 async function spawnShortcut(p:string,task:Task):Promise<Result<string, string>> {
     return new Promise((resolve)=>{
         cp.exec(`explorer "${p}"`,async () => {
-            const sRes=await takeShot({name: task.name, category: task.category, stage: "onRun"})
             await sleep(10000)
+            const sRes=await takeShot({name: task.name, category: task.category, stage: "onRun"})
             resolve(sRes)
         })
     })
