@@ -16,9 +16,11 @@ export interface EndReq {
     result:Result<{ readme:string,meta:Meta }, string>
 }
 
+type ShotStage="afterInstall"|"onRun"|"afterUninstall"
 export interface TakeShotReq {
     name:string
     category:string
+    stage:ShotStage
 }
 
 export interface TakeShotRes {

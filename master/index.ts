@@ -31,7 +31,7 @@ app.get("/start",(req,res)=>{
 app.use('/storage',express.static(TASK_DIR))
 app.post('/takeShot',async (req,res)=>{
     const body:TakeShotReq=req.body
-    const fileName=`${body.name}_${dayjs().format("YY-MM-DD-HH-mm-ss")}.png`
+    const fileName=`${body.stage}_${dayjs().format("YY-MM-DD-HH-mm-ss")}.png`
     const reportDir=getReportDir(body.category,body.name)
 
     const sRes=await shotVM(path.join(reportDir,fileName))
