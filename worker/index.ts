@@ -16,6 +16,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const nepPath=dRes.unwrap()
 
     // 安装
+    await eptUninstall(name.split("_")[0])
     const iRes=await eptInstall(path.join(__dirname,"..",nepPath))
     if(iRes.err) return iRes
     const installedPath=iRes.unwrap()
