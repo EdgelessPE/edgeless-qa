@@ -16,6 +16,13 @@ function getReportDir(category:string,name:string){
     return p
 }
 
+async function sleep(timeout:number) {
+    return new Promise((resolve)=>{
+        setTimeout(resolve,timeout)
+    })
+}
+
 export {
-    getReportDir
+    getReportDir,
+    sleep,
 }
