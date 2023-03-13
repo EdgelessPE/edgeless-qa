@@ -56,7 +56,6 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
         // 处理失败
         fs.writeFileSync(path.join(reportDir,"Error.txt"),result.val)
         console.log(`Error:Worker returned failure : ${result.val}`)
-        return new Ok(null)
     }else{
         // 处理成功
         const {readme,meta}=result.val
