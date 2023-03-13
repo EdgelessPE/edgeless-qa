@@ -25,7 +25,7 @@ async function startVM(backTo?:string):Promise<Result<null, string>> {
 }
 
 async function shotVM(saveTo:string) {
-    return exec(`VboxManage controlvm ${VM_NAME} screenshotpng ${saveTo}`)
+    return exec(`VboxManage controlvm ${VM_NAME} screenshotpng "${saveTo}"`)
 }
 
 async function stopVM() {
