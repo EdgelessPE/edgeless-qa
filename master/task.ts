@@ -2,6 +2,7 @@ import fs from "fs"
 import path from "path";
 import {Task} from "../types";
 import {None, Option, Some} from "ts-results";
+import {REPORT_DIR} from "./constants";
 
 function getTasks(storage: string): Task[] {
     const list = fs.readdirSync(storage)
@@ -12,6 +13,11 @@ function getTasks(storage: string): Task[] {
         if(fs.statSync(cateDir).isFile()) continue
         res = res.concat(
             fs.readdirSync(cateDir)
+                .filter(fileName=> {
+                    const reportDir=path.join(REPORT_DIR, category, fileName)
+                    const done=fs.existsSync(path.join(reportDir,"Error.txt"))||fs.existsSync(path.join(reportDir,"README.md"))
+                    return !done
+                })
                 .map(fileName => ({
                     name: fileName,
                     category,
@@ -20,6 +26,7 @@ function getTasks(storage: string): Task[] {
         )
     }
 
+    console.log(`Info:Got ${res.length} tasks`)
     return res
 }
 
