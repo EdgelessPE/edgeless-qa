@@ -15,13 +15,13 @@ async function exec(cmd:string,cwd?:string):Promise<Result<null, string>> {
 }
 
 async function eptInstall(pkg:string):Promise<Result<string, string>> {
-    const res=await exec(`ept install -y "${pkg}"`,"./ept")
+    const res=await exec(`ept -y install "${pkg}"`,"./ept")
     if(res.err) return res
     return new Ok(path.join("./ept","apps",path.basename(pkg)))
 }
 
 async function eptUninstall(name:string):Promise<Result<null, string>> {
-    return exec(`ept uninstall -y "${name}"`,"./ept")
+    return exec(`ept -y uninstall "${name}"`,"./ept")
 }
 
 export {
