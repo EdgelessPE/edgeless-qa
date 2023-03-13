@@ -5,7 +5,7 @@ import {eptInstall, eptUninstall} from "./ept";
 import {genMeta} from "./meta";
 import {getShortcuts, spawnShortcut} from "./shortcut";
 import {EndReq, Task} from "../types";
-import {genReadme} from "./readme";
+import {genReadme, RenderPicProps} from "./readme";
 import path from "path";
 
 async function runner(task:Task):Promise<EndReq['result']> {
@@ -32,11 +32,11 @@ async function runner(task:Task):Promise<EndReq['result']> {
     // 试运行并截图
     const snapRes=await Promise.all(getShortcuts().map(p=>spawnShortcut(p,task)))
     for(const r of snapRes){
-        if(r.err){
-            return r
+        if(r.res.err){
+            return r.res
         }
     }
-    const SNAPS_onRun=snapRes.map(r=>r.unwrap())
+    const SNAPS_onRun:RenderPicProps[]=snapRes.map(r=>({shortcutName:r.shortcutName,picName:r.res.unwrap()}))
 
     // 卸载
     const uRes=await eptUninstall(name.split("_")[0])

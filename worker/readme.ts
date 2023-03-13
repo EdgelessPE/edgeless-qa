@@ -1,10 +1,18 @@
 import {Meta, Task} from "../types";
 import dayjs from "dayjs";
 
-function renderPics(pics:string[]):string {
+export interface RenderPicProps {
+    picName:string
+    shortcutName?:string
+}
+
+function renderPics(pics:RenderPicProps[]):string {
     let res=""
-    for(const name of pics){
-        res+=`![](${name})\n`
+    for(const {picName,shortcutName} of pics){
+        if(shortcutName){
+            res+=`* 运行 \`${shortcutName}\``
+        }
+        res+=`![shortcutName](${picName})\n`
     }
     return res
 }
@@ -13,7 +21,7 @@ function genReadme(payload:{
     task:Task,
     shots:{
         afterInstall:string,
-        onRun:string[],
+        onRun:RenderPicProps[],
     },
     meta:Meta,
 }) {
@@ -31,7 +39,7 @@ return `# ${name} 测试结果
 * 测试机：Edgeless QA
 
 ## 安装后截图
-${renderPics([afterInstall])}
+${renderPics([{picName:afterInstall}])}
 
 ## 运行时截图
 ${renderPics(onRun)}`
