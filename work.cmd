@@ -1,3 +1,3 @@
-git pull
-yarn
+::git pull
+::yarn
 yarn worker
