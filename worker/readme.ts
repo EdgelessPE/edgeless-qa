@@ -33,7 +33,7 @@ function genReadme(payload:{
 }) {
     const {
         task:{name,category},
-        afterInstall,onRun,
+        afterInstall,onRun,afterUninstall,
         meta:{installed,uninstalled},
     }=payload
     const time=dayjs().format("YYYY/MM/DD - HH:mm:ss")
@@ -61,12 +61,12 @@ ${renderPics([{picName:afterInstall.shot}])}
 ## 运行时截图
 ${renderPics(onRun.shots)}
 
-## 卸载残留${uninstalled.appRemoved?"\n * app 目录":""}
+## 卸载残留${uninstalled.appRemoved?"\n * **app 目录**":""}
 ${uninstalled.appData.map(name=>`* \`${name}\``).join("\n")}
 
 ## 卸载时控制台输出
 \`\`\`
-${afterInstall.console}
+${afterUninstall.console}
 \`\`\`
 `}
 
