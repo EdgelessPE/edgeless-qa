@@ -11,12 +11,14 @@ import path from "path";
 async function runner(task:Task):Promise<EndReq['result']> {
     // 下载测试包
     const {name,category}=task
+    console.log("Info:Downloading package")
     const dRes=await downloadNep(task.download,task.category,task.name)
     if(dRes.err) return dRes
     const nepPath=dRes.unwrap()
 
     // 安装
     await eptUninstall(name.split("_")[0])
+    console.log("Info:Installing")
     const iRes=await eptInstall(path.join(__dirname,"..",nepPath))
     if(iRes.err) return iRes
     const installedPath=iRes.unwrap()
@@ -25,6 +27,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const meta=genMeta(installedPath)
 
     // 截图
+    console.log("Info:Shot after installed")
     const sRes=await takeShot({name,category,stage:"afterInstall"})
     if(sRes.err) return sRes
     const SNAP_afterInstall=sRes.unwrap()
@@ -39,6 +42,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const SNAPS_onRun:RenderPicProps[]=snapRes.map(r=>({shortcutName:r.shortcutName,picName:r.res.unwrap()}))
 
     // 卸载
+    console.log("Info:Uninstalling")
     const uRes=await eptUninstall(name.split("_")[0])
     if(uRes.err) return uRes
 
@@ -67,6 +71,7 @@ async function main():Promise<Result<null, string>> {
 
     // 下载 ept
     if(info.eptDownload){
+        console.log("Info:Downloading ept")
         const dRes=await downloadEpt(info.eptDownload)
         if(dRes.err) return dRes
     }
