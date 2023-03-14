@@ -62,7 +62,7 @@ ${renderPics([{picName:afterInstall.shot}])}
 ## 运行时截图
 ${renderPics(onRun.shots)}
 
-## 卸载残留${uninstalled.appRemoved?"\n * **app 目录**":""}
+## 卸载残留${uninstalled.appRemoved?"":"\n * **app 目录**"}
 ${uninstalled.appData.map(name=>`* \`${name}\``).join("\n")}
 
 ## 卸载时控制台输出

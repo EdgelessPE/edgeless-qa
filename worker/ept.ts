@@ -17,7 +17,7 @@ async function exec(cmd:string,cwd?:string):Promise<Result<string, string>> {
 async function eptInstall(pkg:string):Promise<Result<[string,string], string>> {
     const res=await exec(`ept -y install "${pkg}"`,"./ept")
     if(res.err) return res
-    return new Ok([path.join("./ept","apps",path.basename(pkg)),res.val])
+    return new Ok([path.join("./ept","apps",path.basename(pkg).split("_")[0]),res.val])
 }
 
 async function eptUninstall(name:string):Promise<Result<string, string>> {
