@@ -19,10 +19,10 @@ function scanner(p:string):AppDataNode {
     }
 }
 
-function compare(before:Set<string>,after:Set<string>):string[] {
+function compare(prefix:string,before:Set<string>,after:Set<string>):string[] {
     const res:string[]=[]
     for(const name of after){
-        if(!before.has(name)) res.push(name)
+        if(!before.has(name)) res.push(`${prefix}/${name}`)
     }
     return res
 }
@@ -40,7 +40,7 @@ function giantScanner() {
 function giantCompare(before:AppDataNode[]):string[] {
     let res:string[]=[]
     before.forEach(node=>{
-        res=res.concat(compare(node.set,scanner(node.path).set))
+        res=res.concat(compare(node.name,node.set,scanner(node.path).set))
     })
     return res
 }
