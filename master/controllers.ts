@@ -7,13 +7,14 @@ import {EPT_BIN, VM_SNAPSHOT} from "./constants";
 import dayjs from "dayjs";
 import {getReportDir} from "./utils";
 import {shotVM, startVM, stopVM} from "./vm";
+import {isDev} from "./env";
 
 
 async function beginATask(taskManager:TaskManager):Promise<Result<null, string>> {
     const get=taskManager.get()
     if(get.some){
         console.log(`Info:Start task ${get.val.name}`)
-        return startVM(VM_SNAPSHOT)
+        return startVM(isDev?undefined:VM_SNAPSHOT)
     }else{
         console.log(`Info:No tasks left`)
         return new Ok(null)
@@ -64,10 +65,12 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
     }
 
     // 关闭虚拟机
-    const sRes=await stopVM()
-    if(sRes.err){
-        console.log(`Error:Failed to shutdown VM : ${JSON.stringify(sRes.val,null,2)}`)
-        return new Ok(null)
+    if(!isDev){
+        const sRes=await stopVM()
+        if(sRes.err){
+            console.log(`Error:Failed to shutdown VM : ${JSON.stringify(sRes.val,null,2)}`)
+            return new Ok(null)
+        }
     }
 
     // 步进任务队列
@@ -80,7 +83,6 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
         }
     }else{
         console.log("Info:End")
-        process.exit(0)
     }
 
     return new Ok(null)
