@@ -2,11 +2,12 @@ import {Ok, Result} from "ts-results";
 import {end, start, takeShot} from "./network";
 import {downloadEpt, downloadNep} from "./download";
 import {eptInstall, eptUninstall} from "./ept";
-import {genMeta} from "./meta";
 import {getShortcuts, spawnShortcut} from "./shortcut";
-import {EndReq, Task} from "../types";
+import {EndReq, Meta, Task} from "../types";
 import {genReadme, RenderPicProps} from "./readme";
 import path from "path";
+import {giantCompare, giantScanner} from "./appdata";
+import {genInstalledMeta, genUninstalledMeta} from "./meta";
 
 async function runner(task:Task):Promise<EndReq['result']> {
     // 下载测试包
@@ -21,10 +22,13 @@ async function runner(task:Task):Promise<EndReq['result']> {
     console.log("Info:Installing")
     const iRes=await eptInstall(path.join(__dirname,"..",nepPath))
     if(iRes.err) return iRes
-    const installedPath=iRes.unwrap()
+    const [installedPath,installingConsole]=iRes.unwrap()
 
-    // 生成 meta
-    const meta=genMeta(installedPath)
+    // 生成 appdata 快照
+    const installedAppdataShot=giantScanner()
+
+    // 生成安装后 meta
+    const installedMeta=genInstalledMeta(installedPath)
 
     // 截图
     console.log("Info:Shot after installed")
@@ -46,15 +50,28 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const uRes=await eptUninstall(name.split("_")[0])
     if(uRes.err) return uRes
 
-    //TODO:检查新增数据写入meta
+    // 检查 appdata 新增
+    const added=giantCompare(installedAppdataShot)
+
+    // 生成 meta
+    const meta:Meta={
+        installed:installedMeta,
+        uninstalled:genUninstalledMeta(installedPath,added)
+    }
 
     return new Ok({
         readme:genReadme({
             task,
             meta,
-            shots:{
-                afterInstall:SNAP_afterInstall,
-                onRun:SNAPS_onRun
+            afterInstall:{
+                shot:SNAP_afterInstall,
+                console:installingConsole,
+            },
+            onRun:{
+                shots:SNAPS_onRun,
+            },
+            afterUninstall:{
+                console:uRes.val
             }
         }),
         meta

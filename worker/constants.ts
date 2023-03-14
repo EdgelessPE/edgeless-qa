@@ -1,3 +1,7 @@
 export const MASTER_ADDRESS="http://192.168.5.165:3001"
-export const DESKTOP_LOCATION="C:\\Users\\NepTest\\Desktop"
-export const EPT_BIN="./ept/ept.exe"
+export const LOCATIONS={
+    DESKTOP:"C:\\Users\\NepTest\\Desktop",
+    APPDATA_ROOT:"C:\\Users\\NepTest\\AppData",
+    PROGRAM_DATA:"C:\\ProgramData"
+}
+export const EPT_DIR="./ept"

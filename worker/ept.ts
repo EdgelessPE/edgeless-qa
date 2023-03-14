@@ -2,25 +2,25 @@ import {Err, Ok, Result} from "ts-results";
 import cp from "child_process";
 import path from "path";
 
-async function exec(cmd:string,cwd?:string):Promise<Result<null, string>> {
+async function exec(cmd:string,cwd?:string):Promise<Result<string, string>> {
     return new Promise((resolve)=>{
         cp.exec(cmd,{cwd},(error, stdout)=>{
             if(error){
                 resolve(new Err(`Error:Failed to exec cmd '${cmd}' : ${stdout}`))
             }else{
-                resolve(new Ok(null))
+                resolve(new Ok(stdout))
             }
         })
     })
 }
 
-async function eptInstall(pkg:string):Promise<Result<string, string>> {
+async function eptInstall(pkg:string):Promise<Result<[string,string], string>> {
     const res=await exec(`ept -y install "${pkg}"`,"./ept")
     if(res.err) return res
-    return new Ok(path.join("./ept","apps",path.basename(pkg)))
+    return new Ok([path.join("./ept","apps",path.basename(pkg)),res.val])
 }
 
-async function eptUninstall(name:string):Promise<Result<null, string>> {
+async function eptUninstall(name:string):Promise<Result<string, string>> {
     return exec(`ept -y uninstall "${name}"`,"./ept")
 }
 

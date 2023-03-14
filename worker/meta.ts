@@ -1,11 +1,23 @@
 import {Meta} from "../types";
+import {getShortcuts} from "./shortcut";
+import {getPaths} from "./path";
+import fs from "fs";
 
-function genMeta(installedPath:string):Meta {
+function genInstalledMeta(installedPath:string):Meta['installed'] {
     return {
-       name:installedPath
+       shortcutsAdded:getShortcuts(),
+        pathsAdded:getPaths()
+    }
+}
+
+function genUninstalledMeta(installedPath:string,added:string[]):Meta['uninstalled'] {
+    return {
+        appRemoved:fs.existsSync(installedPath),
+        appData:added
     }
 }
 
 export {
-    genMeta
+    genInstalledMeta,
+    genUninstalledMeta
 }

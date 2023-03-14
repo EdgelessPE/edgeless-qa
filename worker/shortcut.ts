@@ -1,12 +1,12 @@
 import fs from "fs";
 import cp from "child_process"
-import {DESKTOP_LOCATION} from "./constants";
+import {LOCATIONS} from "./constants";
 import {Result} from "ts-results";
 import {takeShot} from "./network";
 import {Task} from "../types";
 
 function getShortcuts():string[] {
-    const res= fs.readdirSync(DESKTOP_LOCATION)
+    const res= fs.readdirSync(LOCATIONS.DESKTOP)
         .filter(name=>name.toLowerCase().endsWith(".lnk"))
     console.log(`Info:Got shortcuts : ${JSON.stringify(res)}`)
     return res

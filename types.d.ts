@@ -12,7 +12,14 @@ export interface StartRes {
 }
 
 interface Meta {
-    name:string
+    installed:{
+        shortcutsAdded:string[]
+        pathsAdded:string[]
+    }
+    uninstalled:{
+        appRemoved:boolean
+        appData:string[]
+    }
 }
 
 export interface EndReq {
