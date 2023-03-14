@@ -6,8 +6,14 @@ import {takeShot} from "./network";
 import {Task} from "../types";
 
 function getShortcuts():string[] {
-    const res= fs.readdirSync(LOCATIONS.DESKTOP)
-        .filter(name=>name.toLowerCase().endsWith(".lnk"))
+    let res:string[]=[]
+    const p=[LOCATIONS.DESKTOP,LOCATIONS.PUBLIC_DESKTOP]
+    p.forEach(location=>{
+        res=res.concat(
+            fs.readdirSync(location)
+                .filter(name=>name.toLowerCase().endsWith(".lnk"))
+        )
+    })
     console.log(`Info:Got shortcuts : ${JSON.stringify(res)}`)
     return res
 }
