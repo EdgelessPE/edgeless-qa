@@ -47,7 +47,7 @@ return `# ${name} 测试结果
 ## 新增的快捷方式
 ${installed.shortcutsAdded.map(name=>`* \`${name}\``).join("\n")}
 
-## 新增的 PATH
+## 新增的 PATH 代理
 ${installed.pathsAdded.map(name=>`* \`${name}\``).join("\n")}
 
 ## 安装时控制台输出
