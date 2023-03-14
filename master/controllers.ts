@@ -80,6 +80,7 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
         }
     }else{
         console.log("Info:End")
+        process.exit(0)
     }
 
     return new Ok(null)
