@@ -13,6 +13,7 @@ export interface StartRes {
 
 interface Meta {
     installed:{
+        at:string
         shortcutsAdded:string[]
         pathsAdded:string[]
     }

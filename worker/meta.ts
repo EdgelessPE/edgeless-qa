@@ -3,17 +3,18 @@ import {getShortcuts} from "./shortcut";
 import {getPaths} from "./path";
 import fs from "fs";
 
-function genInstalledMeta(installedPath:string):Meta['installed'] {
+function genInstalledMeta(installedPath: string): Meta['installed'] {
     return {
-       shortcutsAdded:getShortcuts(),
-        pathsAdded:getPaths()
+        at: installedPath,
+        shortcutsAdded: getShortcuts(),
+        pathsAdded: getPaths()
     }
 }
 
-function genUninstalledMeta(installedPath:string,added:string[]):Meta['uninstalled'] {
+function genUninstalledMeta(installedPath: string, added: string[]): Meta['uninstalled'] {
     return {
-        appRemoved:fs.existsSync(installedPath),
-        appData:added
+        appRemoved: !fs.existsSync(installedPath),
+        appData: added
     }
 }
 

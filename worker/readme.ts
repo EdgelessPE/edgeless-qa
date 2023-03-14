@@ -34,9 +34,10 @@ function genReadme(payload:{
     const {
         task:{name,category},
         afterInstall,onRun,afterUninstall,
-        meta:{installed,uninstalled},
+        meta,
     }=payload
     const time=dayjs().format("YYYY/MM/DD - HH:mm:ss")
+    const {installed,uninstalled}=meta
 
 return `# ${name} 测试结果
 
@@ -67,6 +68,11 @@ ${uninstalled.appData.map(name=>`* \`${name}\``).join("\n")}
 ## 卸载时控制台输出
 \`\`\`
 ${afterUninstall.console}
+\`\`\`
+
+## Meta
+\`\`\`
+${JSON.stringify(meta,null,2)}
 \`\`\`
 `}
 
