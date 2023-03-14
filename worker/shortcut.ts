@@ -7,7 +7,7 @@ import {Task} from "../types";
 
 function getShortcuts():string[] {
     const res= fs.readdirSync(DESKTOP_LOCATION)
-        .filter(name=>name.endsWith(".lnk"))
+        .filter(name=>name.toLowerCase().endsWith(".lnk"))
     console.log(`Info:Got shortcuts : ${JSON.stringify(res)}`)
     return res
 }
