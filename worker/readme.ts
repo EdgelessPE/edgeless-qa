@@ -1,5 +1,6 @@
 import {Meta, Task} from "../types";
 import dayjs from "dayjs";
+import {exportLog} from "./log";
 
 export interface RenderPicProps {
     picName:string
@@ -74,6 +75,12 @@ ${afterUninstall.console}
 \`\`\`
 ${JSON.stringify(meta,null,2)}
 \`\`\`
+
+## QA日志
+\`\`\`
+${exportLog()}
+\`\`\`
+
 `}
 
 export {

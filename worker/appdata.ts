@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {LOCATIONS} from "./constants";
+import {log} from "./log";
 
 interface AppDataNode {
     name:string
@@ -19,7 +20,7 @@ function scanner(p:string):AppDataNode {
                     try{
                         return fs.statSync(pa).isDirectory()
                     }catch (e) {
-                        console.log(`Warning:Failed to read ${pa}`)
+                        log(`Warning:Failed to read ${pa}`)
                         return false
                     }
                 })
