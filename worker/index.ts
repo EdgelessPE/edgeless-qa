@@ -18,15 +18,15 @@ async function runner(task:Task):Promise<EndReq['result']> {
     if(dRes.err) return dRes
     const nepPath=dRes.unwrap()
 
+    // 生成 appdata 快照
+    const installedAppdataShot=giantScanner()
+
     // 安装
     await eptUninstall(name.split("_")[0])
     log("Info:Installing")
     const iRes=await eptInstall(path.join(__dirname,"..",nepPath))
     if(iRes.err) return iRes
     const [installedPath,installingConsole]=iRes.unwrap()
-
-    // 生成 appdata 快照
-    const installedAppdataShot=giantScanner()
 
     // 生成安装后 meta
     const installedMeta=genInstalledMeta(installedPath)
