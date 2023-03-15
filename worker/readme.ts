@@ -11,7 +11,7 @@ function renderPics(pics:RenderPicProps[]):string {
     let res=""
     for(const {picName,shortcutName} of pics){
         if(shortcutName){
-            res+=`* 运行 \`${shortcutName}\``
+            res+=`* 运行 \`${shortcutName}\`\n    `
         }
         res+=`![shortcutName](${picName})\n`
     }

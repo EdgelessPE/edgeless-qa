@@ -20,7 +20,7 @@ function scanner(p:string):AppDataNode {
                 return false
             }
         })
-    log(`Info:Scanned ${p} : ${dir.join(",")}`)
+    // log(`Info:Scanned ${p} : ${dir.join(",")}`)
     return {
         name:path.basename(p),
         path:p,
