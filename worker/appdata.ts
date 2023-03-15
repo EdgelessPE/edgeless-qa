@@ -15,9 +15,11 @@ function scanner(p:string):AppDataNode {
         set:new Set(
             fs.readdirSync(p)
                 .filter(name=>{
+                    const pa=path.join(p,name)
                     try{
-                        return fs.statSync(path.join(p,name)).isDirectory()
+                        return fs.statSync(pa).isDirectory()
                     }catch (e) {
+                        console.log(`Warning:Failed to read ${pa}`)
                         return false
                     }
                 })
