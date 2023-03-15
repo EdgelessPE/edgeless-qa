@@ -1,10 +1,14 @@
 import {Err, Ok, Result} from "ts-results";
 import cp from "child_process";
 import path from "path";
+import {log} from "./log";
 
 async function exec(cmd:string,cwd?:string):Promise<Result<string, string>> {
+    const start=Date.now()
     return new Promise((resolve)=>{
         cp.exec(cmd,{cwd},(error, stdout)=>{
+            const passed=(Date.now()-start)/1000
+            log(`Info:Command '${cmd}' executed in ${passed}s (${passed/60}min)`)
             if(error){
                 resolve(new Err(`Error:Failed to exec cmd '${cmd}' : ${stdout}`))
             }else{
