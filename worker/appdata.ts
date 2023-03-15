@@ -14,7 +14,13 @@ function scanner(p:string):AppDataNode {
         path:p,
         set:new Set(
             fs.readdirSync(p)
-                .filter(name=>fs.statSync(path.join(p,name)).isDirectory())
+                .filter(name=>{
+                    try{
+                        return fs.statSync(path.join(p,name)).isDirectory()
+                    }catch (e) {
+                        return false
+                    }
+                })
         )
     }
 }
