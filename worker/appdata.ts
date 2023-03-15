@@ -10,20 +10,22 @@ interface AppDataNode {
 }
 
 function scanner(p:string):AppDataNode {
+    const dir=fs.readdirSync(p)
+        .filter(name=>{
+            const pa=path.join(p,name)
+            try{
+                return fs.statSync(pa).isDirectory()
+            }catch (e) {
+                log(`Warning:Failed to read ${pa}`)
+                return false
+            }
+        })
+    log(`Info:Scanned ${p} : ${dir.join(",")}`)
     return {
         name:path.basename(p),
         path:p,
         set:new Set(
-            fs.readdirSync(p)
-                .filter(name=>{
-                    const pa=path.join(p,name)
-                    try{
-                        return fs.statSync(pa).isDirectory()
-                    }catch (e) {
-                        log(`Warning:Failed to read ${pa}`)
-                        return false
-                    }
-                })
+            dir
         )
     }
 }
