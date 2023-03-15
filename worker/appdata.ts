@@ -32,6 +32,8 @@ function giantScanner() {
         path.join(LOCATIONS.APPDATA_ROOT,"Roaming"),
         path.join(LOCATIONS.APPDATA_ROOT,"Local"),
         path.join(LOCATIONS.APPDATA_ROOT,"LocalLow"),
+        LOCATIONS.PROGRAM_FILES_X64,
+        LOCATIONS.PROGRAM_FILES_X86,
         // LOCATIONS.PROGRAM_DATA
     ]
     return p.map(scanner)
