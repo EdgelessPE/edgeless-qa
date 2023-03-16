@@ -48,7 +48,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
 
     const STDOUTS_onRun:StdoutShot[]=[]
     for(const name of getPaths()){
-        const res=await spawnPaths(name,task)
+        const res=await spawnPaths(name.split(".")[0],task)
         STDOUTS_onRun.push(res)
     }
 

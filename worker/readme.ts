@@ -22,7 +22,7 @@ function renderStdouts(outs:StdoutShot[]):string {
     let res=""
     for(const {pathName,stdout} of outs){
         if(pathName){
-            res+=`* 运行 \`${pathName}\`\n`
+            res+=`* 运行 \`${pathName} help\`\n`
         }
         res+=`\`\`\`\n${stdout}\n\`\`\`\n`
     }
