@@ -38,7 +38,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const SNAP_afterInstall=sRes.unwrap()
 
     // 试运行并截图
-    const snapRes=await Promise.all(getShortcuts().map(p=>spawnShortcut(p,task)))
+    const snapRes=await Promise.all(getShortcuts(true).map(p=>spawnShortcut(p,task)))
     for(const r of snapRes){
         if(r.res.err){
             return r.res

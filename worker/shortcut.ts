@@ -6,7 +6,7 @@ import {takeShot} from "./network";
 import {Task} from "../types";
 import {log} from "./log";
 
-function getShortcuts():string[] {
+function getShortcuts(addLog=false):string[] {
     let res:string[]=[]
     const p=[LOCATIONS.DESKTOP,LOCATIONS.PUBLIC_DESKTOP]
     p.forEach(location=>{
@@ -15,7 +15,7 @@ function getShortcuts():string[] {
                 .filter(name=>name.toLowerCase().endsWith(".lnk"))
         )
     })
-    log(`Info:Got shortcuts : ${JSON.stringify(res)}`)
+    if(addLog) log(`Info:Got shortcuts : ${JSON.stringify(res)}`)
     return res
 }
 
