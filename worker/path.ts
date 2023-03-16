@@ -14,7 +14,7 @@ function getPaths() {
 }
 
 async function spawnPaths(name:string,task:Task):Promise<{pathName:string,res:Result<string, string>}> {
-    const stdout=await exec(`cmd /c "${name} help"`,path.join(EPT_DIR,"bin"))
+    const stdout=await exec(`cmd /c "start ${name} help"`,path.join(EPT_DIR,"bin"))
     log(`Info:Take shot for ${name}`)
     const res=await takeShot({name: task.name, category: task.category, stage: "onRun"})
     return {
