@@ -1,4 +1,4 @@
-import {Meta, Task} from "../types";
+import {Meta, StdoutShot, Task} from "../types";
 import dayjs from "dayjs";
 import {exportLog} from "./log";
 
@@ -18,6 +18,17 @@ function renderPics(pics:RenderPicProps[]):string {
     return res
 }
 
+function renderStdouts(outs:StdoutShot[]):string {
+    let res=""
+    for(const {pathName,stdout} of outs){
+        if(pathName){
+            res+=`* 运行 \`${pathName}\`\n    `
+        }
+        res+=`\`\`\`\n${stdout}\n\`\`\`\n`
+    }
+    return res
+}
+
 function genReadme(payload:{
     task:Task,
     afterInstall:{
@@ -26,6 +37,7 @@ function genReadme(payload:{
     },
     onRun:{
         shots:RenderPicProps[],
+        stdouts:StdoutShot[],
     },
     afterUninstall:{
         console:string,
@@ -62,6 +74,9 @@ ${renderPics([{picName:afterInstall.shot}])}
 
 ## 运行时截图
 ${renderPics(onRun.shots)}
+
+## 运行时输出
+${renderStdouts(onRun.stdouts)}
 
 ## 卸载残留${uninstalled.appRemoved?"":"\n * **app 目录**"}
 ${uninstalled.appData.map(name=>`* \`${name}\``).join("\n")}

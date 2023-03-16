@@ -3,7 +3,7 @@ import {end, start, takeShot} from "./network";
 import {downloadEpt, downloadNep} from "./download";
 import {eptInstall, eptUninstall} from "./ept";
 import {getShortcuts, spawnShortcut} from "./shortcut";
-import {EndReq, Meta, Task} from "../types";
+import {EndReq, Meta, StdoutShot, Task} from "../types";
 import {genReadme, RenderPicProps} from "./readme";
 import path from "path";
 import {giantCompare, giantScanner} from "./appdata";
@@ -45,10 +45,11 @@ async function runner(task:Task):Promise<EndReq['result']> {
         if(res.res.err) return res.res
         SNAPS_onRun.push({shortcutName:res.shortcutName,picName:res.res.unwrap()})
     }
+
+    const STDOUTS_onRun:StdoutShot[]=[]
     for(const name of getPaths()){
         const res=await spawnPaths(name,task)
-        if(res.res.err) return res.res
-        SNAPS_onRun.push({shortcutName:res.pathName,picName:res.res.unwrap()})
+        STDOUTS_onRun.push(res)
     }
 
     // 卸载
@@ -75,6 +76,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
             },
             onRun:{
                 shots:SNAPS_onRun,
+                stdouts:STDOUTS_onRun
             },
             afterUninstall:{
                 console:uRes.val

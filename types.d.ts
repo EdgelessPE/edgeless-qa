@@ -39,3 +39,8 @@ export interface TakeShotReq {
 export interface TakeShotRes {
     fileName:string
 }
+
+export interface StdoutShot {
+    pathName:string,
+    stdout:string
+}
