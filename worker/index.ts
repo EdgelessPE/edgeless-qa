@@ -9,6 +9,7 @@ import path from "path";
 import {giantCompare, giantScanner} from "./appdata";
 import {genInstalledMeta, genUninstalledMeta} from "./meta";
 import {log} from "./log";
+import {getPaths, spawnPaths} from "./path";
 
 async function runner(task:Task):Promise<EndReq['result']> {
     // 下载测试包
@@ -38,13 +39,17 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const SNAP_afterInstall=sRes.unwrap()
 
     // 试运行并截图
-    const snapRes=await Promise.all(getShortcuts(true).map(p=>spawnShortcut(p,task)))
-    for(const r of snapRes){
-        if(r.res.err){
-            return r.res
-        }
+    const SNAPS_onRun:RenderPicProps[]=[]
+    for(const name of getShortcuts()){
+        const res=await spawnShortcut(name,task)
+        if(res.res.err) return res.res
+        SNAPS_onRun.push({shortcutName:res.shortcutName,picName:res.res.unwrap()})
     }
-    const SNAPS_onRun:RenderPicProps[]=snapRes.map(r=>({shortcutName:r.shortcutName,picName:r.res.unwrap()}))
+    for(const name of getPaths()){
+        const res=await spawnPaths(name,task)
+        if(res.res.err) return res.res
+        SNAPS_onRun.push({shortcutName:res.pathName,picName:res.res.unwrap()})
+    }
 
     // 卸载
     log("Info:Uninstalling")

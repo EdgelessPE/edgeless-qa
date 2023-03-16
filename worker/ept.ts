@@ -31,4 +31,5 @@ async function eptUninstall(name:string):Promise<Result<string, string>> {
 export {
     eptInstall,
     eptUninstall,
+    exec,
 }
