@@ -6,7 +6,7 @@
 * 完成 Windows OOBE 后进入桌面，安装 Git
 * 克隆本仓库到桌面或任意位置：`git clone https://github.com/Cnotech/edgeless-qa.git`，运行 `yarn install` 命令安装依赖
 * 启动 `任务计划程序`，添加一条计划任务：登录时启动程序 `cmd /c "start /min work.cmd"`，起始位置为克隆的项目目录
-* 安装 Windows 更新，然后正确关闭虚拟机
+* 安装 Windows 更新，关闭 UAC、Windows Defender、Windows SmartScreen 等，然后正确关闭虚拟机
 * 为虚拟机创建备份 `base`；若需要自定义备份名称请修改 `master/constants.ts` 中的 `VM_SNAPSHOT` 变量值
 
 ## 准备测试案例
@@ -38,4 +38,4 @@
     ```
 
 ## 运行测试
-在宿主机上运行 `yarn master`以启动测试，报告存放在 `./reports`
+在宿主机上运行 `yarn master` 以启动测试，报告存放在 `./reports`
