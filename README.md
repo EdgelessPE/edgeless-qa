@@ -5,6 +5,7 @@
 * 新建一个 Windows 虚拟机（推荐使用 Windows 10 LTSC），命名为 `NepTest`；若需要自定义名称请修改 `master/constants.ts` 中的 `VM_NAME` 变量值
 * 完成 Windows OOBE 后进入桌面，安装 Git
 * 克隆本仓库到桌面或任意位置：`git clone https://github.com/Cnotech/edgeless-qa.git`，运行 `yarn install` 命令安装依赖
+* 若被测 ept 需要依赖，请在 `./ept` 目录中配置好
 * 启动 `任务计划程序`，添加一条计划任务：登录时启动程序 `cmd /c "start /min work.cmd"`，起始位置为克隆的项目目录
 * 安装 Windows 更新，关闭 UAC、Windows Defender、Windows SmartScreen 等，然后正确关闭虚拟机
 * 为虚拟机创建备份 `base`；若需要自定义备份名称请修改 `master/constants.ts` 中的 `VM_SNAPSHOT` 变量值
