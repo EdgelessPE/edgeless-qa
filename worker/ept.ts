@@ -33,7 +33,7 @@ async function eptMeta(name:string):Promise<Result<MetaResult, string>> {
     const res=await exec(`ept meta "${name}"`,"./ept")
     if(res.err) return res
     try{
-        return JSON.parse(res.val)
+        return new Ok(JSON.parse(res.val))
     }catch (e) {
         return new Err(`Error:Failed to parse output as meta : ${e}, output : ${res.val}`)
     }
