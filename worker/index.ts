@@ -61,7 +61,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const added=giantCompare(installedAppdataShot)
 
     // 生成 meta
-    const nepMetaRes=await eptMeta(task.name)
+    const nepMetaRes=await eptMeta(name.split("_")[0])
     if (nepMetaRes.err){
         return nepMetaRes
     }
