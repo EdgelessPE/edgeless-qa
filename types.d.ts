@@ -1,4 +1,5 @@
 import {Result} from "ts-results";
+import {MetaResult} from "./bindings/MetaResult";
 
 export interface Task {
     name:string
@@ -20,7 +21,8 @@ interface Meta {
     uninstalled:{
         appRemoved:boolean
         appData:string[]
-    }
+    },
+    nep:MetaResult
 }
 
 export interface EndReq {

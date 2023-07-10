@@ -1,7 +1,7 @@
 import {Ok, Result} from "ts-results";
 import {end, start, takeShot} from "./network";
 import {downloadEpt, downloadNep} from "./download";
-import {eptInstall, eptUninstall} from "./ept";
+import {eptInstall, eptMeta, eptUninstall} from "./ept";
 import {getShortcuts, spawnShortcut} from "./shortcut";
 import {EndReq, Meta, StdoutShot, Task} from "../types";
 import {genReadme, RenderPicProps} from "./readme";
@@ -61,9 +61,14 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const added=giantCompare(installedAppdataShot)
 
     // 生成 meta
+    const nepMetaRes=await eptMeta(task.name)
+    if (nepMetaRes.err){
+        return nepMetaRes
+    }
     const meta:Meta={
         installed:installedMeta,
-        uninstalled:genUninstalledMeta(installedPath,added)
+        uninstalled:genUninstalledMeta(installedPath,added),
+        nep:nepMetaRes.unwrap()
     }
 
     return new Ok({
