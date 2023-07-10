@@ -50,7 +50,13 @@ function genReadme(payload:{
         meta,
     }=payload
     const time=dayjs().format("YYYY/MM/DD - HH:mm:ss")
-    const {installed,uninstalled}=meta
+    const {installed,uninstalled,nep}=meta
+
+    // 判断是否 call_installer
+    let have_call_installer=false
+    if (nep.permissions.find(item=>item.key==="execute_installer")){
+        have_call_installer=true
+    }
 
 return `# ${name} 测试结果
 
@@ -78,7 +84,7 @@ ${renderPics(onRun.shots)}
 ## 运行时输出
 ${renderStdouts(onRun.stdouts)}
 
-## 卸载残留${uninstalled.appRemoved?"":"\n * **app 目录**"}
+## 卸载残留${uninstalled.appRemoved?"":"\n * **app 目录**"}${have_call_installer?"\n> 备注：此包调用了安装器用于安装和卸载需要人工操作，因此在 QA 报告中出现卸载残留属于正常情况":""}
 ${uninstalled.appData.map(name=>`* \`${name}\``).join("\n")}
 
 ## 卸载时控制台输出
