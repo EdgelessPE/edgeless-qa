@@ -30,7 +30,7 @@ async function eptUninstall(name:string):Promise<Result<string, string>> {
 }
 
 async function eptMeta(name:string):Promise<Result<MetaResult, string>> {
-    const res=await exec(`ept -y meta "${name}"`,"./ept")
+    const res=await exec(`ept meta "${name}"`,"./ept")
     if(res.err) return res
     try{
         return JSON.parse(res.val)
