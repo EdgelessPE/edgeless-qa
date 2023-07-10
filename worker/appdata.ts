@@ -16,7 +16,9 @@ function scanner(p:string):AppDataNode {
             try{
                 return fs.statSync(pa).isDirectory()
             }catch (e) {
-                log(`Warning:Failed to read ${pa}`)
+                if (!pa.includes("WindowsApps")){
+                    log(`Warning:Failed to read ${pa}`)
+                }
                 return false
             }
         })
