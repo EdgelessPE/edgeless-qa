@@ -52,6 +52,13 @@ async function runner(task:Task):Promise<EndReq['result']> {
         STDOUTS_onRun.push(res)
     }
 
+    // 收集 nep meta
+    const nepMetaRes=await eptMeta(name.split("_")[0])
+    if (nepMetaRes.err){
+        return nepMetaRes
+    }
+    const nepMeta=nepMetaRes.unwrap()
+
     // 卸载
     log("Info:Uninstalling")
     const uRes=await eptUninstall(name.split("_")[0])
@@ -61,14 +68,10 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const added=giantCompare(installedAppdataShot)
 
     // 生成 meta
-    const nepMetaRes=await eptMeta(name.split("_")[0])
-    if (nepMetaRes.err){
-        return nepMetaRes
-    }
     const meta:Meta={
         installed:installedMeta,
         uninstalled:genUninstalledMeta(installedPath,added),
-        nep:nepMetaRes.unwrap()
+        nep:nepMeta
     }
 
     return new Ok({
