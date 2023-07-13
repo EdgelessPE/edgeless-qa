@@ -55,6 +55,14 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/clamscan@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.npmjs.org/@types/clamscan/-/clamscan-2.0.4.tgz#6865a9a6c6ef1b5150784ceb2b2f25088d964a4e"
+  integrity sha512-NpD+EmE+ZK5WRJOAmeDuSYJIv15BUnc4PxQA+m3QNkutaPBZ7bmLDTvqBu2iDchs7YKQjiEQEwEMvsdwtdtImA==
+  dependencies:
+    "@types/node" "*"
+    axios "^0.24.0"
+
 "@types/connect@*":
   version "3.4.35"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.35.tgz#5fcf6ae445e4021d1fc2219a4873cc73a3bb2ad1"
@@ -179,6 +187,13 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
+axios@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.npmjs.org/axios/-/axios-0.24.0.tgz#804e6fa1e4b9c5288501dd9dff56a7a0940d20d6"
+  integrity sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==
+  dependencies:
+    follow-redirects "^1.14.4"
+
 axios@^1.3.4:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.4.tgz#f5760cefd9cfb51fd2481acf88c05f67c4523024"
@@ -288,6 +303,11 @@ chokidar@^3.5.1:
     readdirp "~3.6.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+clamscan@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/clamscan/-/clamscan-2.1.2.tgz#ed58ef77b9095e3b28a3e7855b2c2acf6a2088ef"
+  integrity sha512-pcovgLHcrg3l/mI51Kuk0kN++07pSZdBTskISw0UFvsm8UXda8oNCm0eLeODxFg85Mz+k+TtSS9+XPlriJ8/Fg==
 
 combined-stream@^1.0.8:
   version "1.0.8"
@@ -466,7 +486,7 @@ finalhandler@1.2.0:
     statuses "2.0.1"
     unpipe "~1.0.0"
 
-follow-redirects@^1.15.0, follow-redirects@^1.15.1:
+follow-redirects@^1.14.4, follow-redirects@^1.15.0, follow-redirects@^1.15.1:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==

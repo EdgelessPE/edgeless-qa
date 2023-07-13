@@ -1,4 +1,4 @@
-import {Ok, Result} from "ts-results";
+import {Err, Ok, Result} from "ts-results";
 import {end, start, takeShot} from "./network";
 import {downloadEpt, downloadNep} from "./download";
 import {eptInstall, eptMeta, eptUninstall} from "./ept";
@@ -10,6 +10,7 @@ import {giantCompare, giantScanner} from "./appdata";
 import {genInstalledMeta, genUninstalledMeta} from "./meta";
 import {log} from "./log";
 import {getPaths, spawnPaths} from "./path";
+import { scan } from "./calm";
 
 async function runner(task:Task):Promise<EndReq['result']> {
     // 下载测试包
@@ -22,12 +23,22 @@ async function runner(task:Task):Promise<EndReq['result']> {
     // 生成 appdata 快照
     const installedAppdataShot=giantScanner()
 
-    // 安装
+    // 预卸载
     await eptUninstall(name.split("_")[0])
+
+    // 安装
     log("Info:Installing")
     const iRes=await eptInstall(path.join(__dirname,"..",nepPath))
     if(iRes.err) return iRes
     const [installedPath,installingConsole]=iRes.unwrap()
+
+    // 安全扫描
+    const badFilesRes=await scan(installedPath)
+    if (badFilesRes.err) return badFilesRes
+    const badFiles=badFilesRes.unwrap()
+    if(badFiles.length>0){
+        return new Err(`Error:Security check failed, the following files are reported to contain viruses by ClamAV : \n${badFiles.join(",")}`)
+    }
 
     // 生成安装后 meta
     const installedMeta=genInstalledMeta(installedPath)
@@ -120,7 +131,7 @@ async function main():Promise<Result<null, string>> {
     })
 }
 
-log("Info:Start test")
+log("Info:Launching worker...")
 main().then(res=>{
     if(res.err){
         log(res.val)
