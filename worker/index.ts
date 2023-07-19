@@ -19,29 +19,37 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const dRes=await downloadNep(task.download,task.category,task.name)
     if(dRes.err) return dRes
     const nepPath=dRes.unwrap()
+    const pureName=name.split("_")[0]
 
     // 生成 appdata 快照
     const installedAppdataShot=giantScanner()
 
     // 预卸载
-    await eptUninstall(name.split("_")[0])
+    await eptUninstall(pureName)
 
     // 安装
     log("Info:Installing")
     const iRes=await eptInstall(path.join(__dirname,"..",nepPath))
     if(iRes.err) return iRes
-    const [installedPath,installingConsole]=iRes.unwrap()
+    const installingConsole=iRes.unwrap()
+
+    // 收集 nep meta
+    const nepMetaRes=await eptMeta(pureName)
+    if (nepMetaRes.err){
+        return nepMetaRes
+    }
+    const nepMeta=nepMetaRes.unwrap()
+
+    // 生成安装后 meta
+    const installedMeta=genInstalledMeta(pureName)
 
     // 安全扫描
-    const badFilesRes=await scan(installedPath)
+    const badFilesRes=await scan(nepMeta.temp_dir)
     if (badFilesRes.err) return badFilesRes
     const badFiles=badFilesRes.unwrap()
     if(badFiles.length>0){
         return new Err(`Error:Security check failed, the following files are reported to contain viruses by ClamAV : \n${badFiles.join(",")}`)
     }
-
-    // 生成安装后 meta
-    const installedMeta=genInstalledMeta(installedPath)
 
     // 截图
     log("Info:Shot after installed")
@@ -63,16 +71,9 @@ async function runner(task:Task):Promise<EndReq['result']> {
         STDOUTS_onRun.push(res)
     }
 
-    // 收集 nep meta
-    const nepMetaRes=await eptMeta(name.split("_")[0])
-    if (nepMetaRes.err){
-        return nepMetaRes
-    }
-    const nepMeta=nepMetaRes.unwrap()
-
     // 卸载
     log("Info:Uninstalling")
-    const uRes=await eptUninstall(name.split("_")[0])
+    const uRes=await eptUninstall(pureName)
     if(uRes.err) return uRes
 
     // 检查 appdata 新增
@@ -81,7 +82,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
     // 生成 meta
     const meta:Meta={
         installed:installedMeta,
-        uninstalled:genUninstalledMeta(installedPath,added),
+        uninstalled:genUninstalledMeta(nepMeta.temp_dir,added),
         nep:nepMeta
     }
 
