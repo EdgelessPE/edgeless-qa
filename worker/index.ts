@@ -124,6 +124,10 @@ async function main():Promise<Result<null, string>> {
     const result=await runner(task)
 
     // 报告
+    if(result.err){
+        log(result.val)
+    }
+
     return end({
         name,
         category,
