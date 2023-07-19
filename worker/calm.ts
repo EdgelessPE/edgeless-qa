@@ -16,6 +16,6 @@ export async function scan(dir:string):Promise<Result<string[],string>>{
         const {badFiles}=await scanner.scanDir(dir)
         return new Ok(badFiles)
     }catch(e){
-        return new Err(`Error:Failed to scan dir with CalmAV : ${e}`)
+        return new Err(`Error:Failed to scan dir '${dir}' with CalmAV : ${e}`)
     }
 }
