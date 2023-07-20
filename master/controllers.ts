@@ -3,7 +3,7 @@ import {EndReq, StartRes, TakeShotReq} from "../types";
 import {TaskManager} from "./task";
 import fs from "fs";
 import path from "path";
-import {EPT_BIN, VM_SNAPSHOT} from "./constants";
+import {EPT_BIN, KEEP_VM_OPEN_WHEN_DEV, VM_SNAPSHOT} from "./constants";
 import dayjs from "dayjs";
 import {getReportDir} from "./utils";
 import {shotVM, startVM, stopVM} from "./vm";
@@ -65,7 +65,7 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
     }
 
     // 关闭虚拟机
-    if(!isDev){
+    if(!(isDev && KEEP_VM_OPEN_WHEN_DEV)){
         const sRes=await stopVM()
         if(sRes.err){
             console.log(`Error:Failed to shutdown VM : ${JSON.stringify(sRes.val,null,2)}`)
