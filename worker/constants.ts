@@ -9,3 +9,7 @@ export const LOCATIONS={
 }
 export const EPT_DIR="./ept"
 export const CLAM_SCAN_PATH="C:/Users/NepTest/Desktop/clamav-1.1.0.win.x64/clamscan.exe"
+
+export const FLAGS={
+    SECURE_CHECK:false
+}

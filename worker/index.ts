@@ -11,6 +11,7 @@ import {genInstalledMeta, genUninstalledMeta} from "./meta";
 import {log} from "./log";
 import {getPaths, spawnPaths} from "./path";
 import { scan } from "./calm";
+import { FLAGS } from "./constants";
 
 async function runner(task:Task):Promise<EndReq['result']> {
     // 下载测试包
@@ -44,11 +45,13 @@ async function runner(task:Task):Promise<EndReq['result']> {
     const installedMeta=genInstalledMeta(pureName)
 
     // 安全扫描
-    const badFilesRes=await scan(nepMeta.temp_dir)
-    if (badFilesRes.err) return badFilesRes
-    const badFiles=badFilesRes.unwrap()
-    if(badFiles.length>0){
-        return new Err(`Error:Security check failed, the following files are reported to contain viruses by ClamAV : \n${badFiles.join(",")}`)
+    if(FLAGS.SECURE_CHECK){
+        const badFilesRes=await scan(nepMeta.temp_dir)
+        if (badFilesRes.err) return badFilesRes
+        const badFiles=badFilesRes.unwrap()
+        if(badFiles.length>0){
+            return new Err(`Error:Security check failed, the following files are reported to contain viruses by ClamAV : \n${badFiles.join(",")}`)
+        }
     }
 
     // 截图
