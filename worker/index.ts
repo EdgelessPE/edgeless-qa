@@ -25,6 +25,9 @@ async function runner(task:Task):Promise<EndReq['result']> {
     // 生成 appdata 快照
     const installedAppdataShot=giantScanner()
 
+    // 预收集快捷方式
+    const nativeShortcuts=getShortcuts()
+
     // 预卸载
     await eptUninstall(pureName)
 
@@ -62,7 +65,7 @@ async function runner(task:Task):Promise<EndReq['result']> {
 
     // 试运行并截图
     const SNAPS_onRun:RenderPicProps[]=[]
-    for(const name of getShortcuts()){
+    for(const name of getShortcuts().filter(name=>!nativeShortcuts.includes(name))){
         const res=await spawnShortcut(name,task)
         if(res.res.err) return res.res
         SNAPS_onRun.push({shortcutName:res.shortcutName,picName:res.res.unwrap()})
