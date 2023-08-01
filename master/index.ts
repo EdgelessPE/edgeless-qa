@@ -19,7 +19,12 @@ app.post('/takeShot',(req,res)=>{
 })
 app.post("/end",async (req,res)=>{
     const body:EndReq=req.body
-    end(body,taskManager).then(r=>res.json(r))
+    end(body,taskManager).then(r=>{
+        res.json(r)
+        if(r.ok && r.val){
+            process.exit()
+        }
+    })
 })
 
 app.listen(PORT,() => {
@@ -27,5 +32,7 @@ app.listen(PORT,() => {
     beginATask(taskManager).then(lRes=>{
         if(lRes.err){
         console.error(JSON.stringify(lRes,null,2))
+    }else if(lRes.val){
+        process.exit()
     }})
 })

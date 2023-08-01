@@ -10,14 +10,14 @@ import {shotVM, startVM, stopVM} from "./vm";
 import {isDev} from "./env";
 
 
-async function beginATask(taskManager:TaskManager):Promise<Result<null, string>> {
+async function beginATask(taskManager:TaskManager):Promise<Result<boolean, string>> {
     const get=taskManager.get()
     if(get.some){
         console.log(`Info:Start task ${get.val.name}`)
-        return startVM(isDev?undefined:VM_SNAPSHOT)
+        return (await startVM(isDev?undefined:VM_SNAPSHOT)).map(()=>false)
     }else{
         console.log(`Info:No tasks left`)
-        return new Ok(null)
+        return new Ok(true)
     }
 }
 
@@ -43,7 +43,7 @@ async function takeShot(body:TakeShotReq):Promise<Result<string, string>> {
     return (sRes.ok?(new Ok(fileName)):sRes)
 }
 
-async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, string>> {
+async function end(body:EndReq,taskManager:TaskManager):Promise<Result<boolean, string>> {
     // 校验完成的任务 name 是否一致
     const curTask=taskManager.get()
     if(curTask.none||curTask.unwrap().name!==body.name){
@@ -68,8 +68,7 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
     if(!(isDev && KEEP_VM_OPEN_WHEN_DEV)){
         const sRes=await stopVM()
         if(sRes.err){
-            console.log(`Error:Failed to shutdown VM : ${JSON.stringify(sRes.val,null,2)}`)
-            return new Ok(null)
+            return new Err(`Error:Failed to shutdown VM : ${JSON.stringify(sRes.val,null,2)}`)
         }
     }
 
@@ -78,14 +77,14 @@ async function end(body:EndReq,taskManager:TaskManager):Promise<Result<null, str
         console.log("Info:Next")
         const lRes=await beginATask(taskManager)
         if(lRes.err){
-            console.log(`Error:Failed to begin another task : ${JSON.stringify(lRes.val,null,2)}`)
-            return new Ok(null)
+            return new Err(`Error:Failed to begin another task : ${JSON.stringify(lRes.val,null,2)}`)
         }
     }else{
         console.log("Info:End")
+        return new Ok(true)
     }
 
-    return new Ok(null)
+    return new Ok(false)
 }
 
 export {

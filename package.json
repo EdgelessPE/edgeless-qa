@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsnd --respawn master/index.ts --dev",
-    "master": "tsnd --respawn master/index.ts",
+    "master": "ts-node master/index.ts",
     "worker": "ts-node worker/index.ts"
   },
   "dependencies": {
