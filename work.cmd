@@ -1,4 +1,4 @@
 git pull
 ::yarn
-freshclam
+::freshclam
 yarn worker
