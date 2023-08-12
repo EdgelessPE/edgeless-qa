@@ -1,6 +1,5 @@
 import {Err, Ok, Result} from "ts-results";
 import cp from "child_process";
-import path from "path";
 import {log} from "./log";
 import {MetaResult} from "../bindings/MetaResult";
 
@@ -24,11 +23,11 @@ async function exec(cmd:string,cwd?:string,timeoutIsOk?:boolean):Promise<Result<
 }
 
 async function eptInstall(pkg:string):Promise<Result<string, string>> {
-    return exec(`ept -y install "${pkg}"`,"./ept")
+    return exec(`ept --qa install "${pkg}"`,"./ept")
 }
 
 async function eptUninstall(name:string):Promise<Result<string, string>> {
-    return exec(`ept -y uninstall "${name}"`,"./ept",true)
+    return exec(`ept --qa uninstall "${name}"`,"./ept",true)
 }
 
 async function eptMeta(name:string):Promise<Result<MetaResult, string>> {
