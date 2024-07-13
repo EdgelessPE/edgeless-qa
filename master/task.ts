@@ -10,10 +10,9 @@ function getTasks(storage: string): Task[] {
 
   for (const scope of list) {
     const scopeDir = path.join(storage, scope);
+    if (fs.statSync(scopeDir).isFile()) continue;
     for (const nepName of fs.readdirSync(scopeDir)) {
       const nepDir = path.join(scopeDir, nepName);
-
-      if (fs.statSync(nepDir).isFile()) continue;
       res = res.concat(
         fs
           .readdirSync(nepDir)
