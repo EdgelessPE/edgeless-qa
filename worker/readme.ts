@@ -51,7 +51,7 @@ function genReadme(payload: {
     afterUninstall,
     meta,
   } = payload;
-  const time = dayjs().format("YYYY/MM/DD - HH:mm:ss");
+  const time = dayjs().format("YYYY/MM/DD HH:mm:ss");
   const { installed, uninstalled, nep } = meta;
 
   // 判断是否 call_installer
@@ -85,11 +85,12 @@ ${renderPics(onRun.shots)}
 ## 运行时输出
 ${renderStdouts(onRun.stdouts)}
 
-## 卸载残留${uninstalled.appRemoved ? "" : "\n * **app 目录**"}${
+## 卸载残留${
     have_call_installer
-      ? "\n> 备注：此包调用了安装器用于安装和卸载需要人工操作，因此在 QA 报告中出现卸载残留属于正常情况"
+      ? "\n> 备注：此包调用了安装器用于安装和卸载需要人工操作，因此在 QA 报告中出现卸载残留属于正常情况\n"
       : ""
   }
+${uninstalled.appRemoved ? "" : "* **app 目录**\n"}
 ${uninstalled.appData.map((name) => `* \`${name}\``).join("\n")}
 
 ## 卸载时控制台输出
