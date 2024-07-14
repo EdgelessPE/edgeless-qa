@@ -16,30 +16,23 @@
 ## 准备测试案例
 
 - 编译 ept，将得到的 release 版本二进制文件放置在 `./storage/ept.exe`
-- 在 `storage` 目录中按目录分类放置 nep 包，示例：
+- 在 `storage` 目录中按 `${scope}/${software}/${fileName}` 的模式放置 nep 包，示例：
   ```
   edgeless-qa/storage
-  ├─即时通讯
-  │      QQ_9.7.5.0_Bot.nep
-  │      TIM_3.3.9.0_Bot.nep
-  │      Wechat_3.9.0.0_Bot.nep
+  ├─360
+  │  ├─360极速浏览器X
+  │  │      360极速浏览器X_22.3.3050.64_Cno.nep
+  │  │
+  │  └─360驱动大师
+  │          360驱动大师_2.0.0.2000_Cno.nep
   │
-  ├─安全急救
-  ├─实用工具
-  │      BBDown_1.5.4.0_Bot.nep
-  │      bottom_0.8.0.0_Bot.nep
-  │      Diffpdf_2.1.3.0_Bot.nep
-  │      Nali_0.7.1.0_Bot.nep
+  ├─Balena
+  │  └─balenaEtcher
+  │          balenaEtcher_1.19.21.0_Hydrogen.nep
   │
-  ├─开发辅助
-  │      adb_34.0.1.0_Bot.nep
-  │
-  ├─集成开发
-  │      VSCode_1.76.2.0_Bot.nep
-  │
-  └─驱动管理
-          360驱动大师_4.5.12.0_Bot.nep
-          驱动总裁_2.12.0.0_Bot.nep
+  └─Bandisoft
+     └─Bandizip
+             Bandizip_7.36.0.0_Cno.nep
   ```
 
 ## 运行测试
