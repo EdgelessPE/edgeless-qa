@@ -1,1 +1,1 @@
-export const isDev=process.argv.includes("--dev")
+export const isDev = process.argv.includes("--dev");
