@@ -96,6 +96,17 @@ async function runner(task: Task): Promise<EndReq["result"]> {
   const uRes = await eptUninstall(pureName);
   if (uRes.err) return uRes;
 
+  // 截图
+  log("Info:Shot after uninstalled");
+  const usRes = await takeShot({
+    scope,
+    nepName,
+    fileName,
+    stage: "afterUninstall",
+  });
+  if (usRes.err) return usRes;
+  const SNAP_afterUninstall = usRes.unwrap();
+
   // 检查 appdata 新增
   const added = giantCompare(installedAppdataShot);
 
@@ -119,6 +130,7 @@ async function runner(task: Task): Promise<EndReq["result"]> {
         stdouts: STDOUTS_onRun,
       },
       afterUninstall: {
+        shot: SNAP_afterUninstall,
         console: uRes.val,
       },
     }),

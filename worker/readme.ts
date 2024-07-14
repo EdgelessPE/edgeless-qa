@@ -40,6 +40,7 @@ function genReadme(payload: {
     stdouts: StdoutShot[];
   };
   afterUninstall: {
+    shot: string;
     console: string;
   };
   meta: Meta;
@@ -97,6 +98,9 @@ ${uninstalled.appData.map((name) => `* \`${name}\``).join("\n")}
 \`\`\`
 ${afterUninstall.console}
 \`\`\`
+
+## 卸载后截图
+${renderPics([{ picName: afterUninstall.shot }])}
 
 ## Meta
 \`\`\`
