@@ -41,7 +41,7 @@ async function exec(
     });
     if (stage) {
       // 运行辅助脚本
-      await sleep(3000);
+      await sleep(10000);
       const auxRes = await runAuxiliary(scope, nepName, stage);
       if (auxRes.err) {
         resolve(auxRes);
