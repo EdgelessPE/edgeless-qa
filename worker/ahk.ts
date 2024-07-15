@@ -29,7 +29,7 @@ export async function runAuxiliary(
   }
   return new Promise((res) => {
     const cmd = auxPath;
-    log(`Info:Running auxiliary script with command '${AHK_EXE_PATH}'`);
+    log(`Info:Running auxiliary script with command '${cmd}'`);
     cp.exec(cmd, (err, _stdout, stderr) => {
       const e = err || stderr;
       if (e) {
