@@ -29,16 +29,16 @@ async function runner(task: Task): Promise<EndReq["result"]> {
   const nativeShortcuts = getShortcuts();
 
   // 预卸载
-  await eptUninstall(pureName);
+  await eptUninstall(pureName, task);
 
   // 安装
   log("Info:Installing");
-  const iRes = await eptInstall(path.join(__dirname, "..", nepPath));
+  const iRes = await eptInstall(path.join(__dirname, "..", nepPath), task);
   if (iRes.err) return iRes;
   const installingConsole = iRes.unwrap();
 
   // 收集 nep meta
-  const nepMetaRes = await eptMeta(pureName);
+  const nepMetaRes = await eptMeta(pureName, task);
   if (nepMetaRes.err) {
     return nepMetaRes;
   }
