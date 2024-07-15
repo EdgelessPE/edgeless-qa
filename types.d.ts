@@ -49,3 +49,5 @@ export interface StdoutShot {
   pathName: string;
   stdout: string;
 }
+
+export type AuxiliaryStage = "install" | "uninstall";
