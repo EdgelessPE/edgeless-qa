@@ -93,7 +93,7 @@ async function runner(task: Task): Promise<EndReq["result"]> {
 
   // 卸载
   log("Info:Uninstalling");
-  const uRes = await eptUninstall(pureName);
+  const uRes = await eptUninstall(pureName, task);
   if (uRes.err) return uRes;
 
   // 截图

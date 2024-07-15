@@ -11,7 +11,9 @@ function getPaths() {
 }
 
 async function spawnPaths(name: string, task: Task): Promise<StdoutShot> {
-  const res = await exec(`cmd /c "${name} help"`, path.join(EPT_DIR, "bin"));
+  const res = await exec(`cmd /c "${name} help"`, task, {
+    cwd: path.join(EPT_DIR, "bin"),
+  });
   return {
     pathName: name,
     stdout: res.unwrapOr("FAILED_TO_EXECUTE"),
