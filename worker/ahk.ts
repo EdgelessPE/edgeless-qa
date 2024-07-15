@@ -27,7 +27,7 @@ export async function runAuxiliary(
     return new Ok(false);
   }
   return new Promise((res) => {
-    const cmd = `"${AHK_EXIST_FLAG}" "${auxPath}"`;
+    const cmd = `"${AHK_EXE_PATH}" "${auxPath}"`;
     cp.exec(cmd, (err, _stdout, stderr) => {
       const e = err || stderr;
       if (e) {
