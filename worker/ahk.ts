@@ -3,6 +3,7 @@ import cp from "child_process";
 import { existsSync } from "fs";
 import { Err, Ok, Result } from "ts-results";
 import { AuxiliaryStage } from "../types";
+import { log } from "./log";
 
 const AHK_EXE_PATH = "C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe";
 let AHK_EXIST_FLAG: boolean | undefined = undefined;
@@ -28,6 +29,7 @@ export async function runAuxiliary(
   }
   return new Promise((res) => {
     const cmd = `"${AHK_EXE_PATH}" "${auxPath}"`;
+    log(`Info:Running auxiliary script with command '${AHK_EXE_PATH}'`);
     cp.exec(cmd, (err, _stdout, stderr) => {
       const e = err || stderr;
       if (e) {
@@ -37,6 +39,7 @@ export async function runAuxiliary(
           )
         );
       } else {
+        log(`Info:Auxiliary script exited`);
         res(new Ok(true));
       }
     });
