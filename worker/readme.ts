@@ -61,7 +61,13 @@ function genReadme(payload: {
     have_call_installer = true;
   }
 
+  // 判断是否存在 Error
+  const hasError =
+    afterInstall.console.includes("Error") ||
+    afterUninstall.console.includes("Error");
+
   return `# ${scope}/${nepName}/${fileName} 测试结果
+${hasError ? "> 警告：控制台输出中有 `Error`\n" : ""}
 
 * 测试时间：${time}
 * 测试机：Edgeless QA
