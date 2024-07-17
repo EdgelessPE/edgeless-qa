@@ -26,15 +26,16 @@ async function exec(
       resolve(new cons("Execution timeout"));
     }, 3 * 60000);
     // 执行 ept 命令
-    cp.exec(cmd, { cwd }, (error, stdout) => {
+    cp.exec(cmd, { cwd }, (error, stdout, stderr) => {
       const passed = (Date.now() - start) / 1000;
       log(
         `Info:Command '${cmd}' executed in ${passed.toFixed(1)}s (${(
           passed / 60
         ).toFixed(1)}min)`
       );
-      if (error) {
-        resolve(new Err(`Error:Failed to exec cmd '${cmd}' : ${stdout}`));
+      const e = error ?? stderr;
+      if (e) {
+        resolve(new Err(`Error:Failed to exec cmd '${cmd}' : ${e}`));
       } else {
         resolve(new Ok(stdout));
       }
