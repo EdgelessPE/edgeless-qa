@@ -5,6 +5,7 @@ import { Result } from "ts-results";
 import { takeShot } from "./network";
 import { Task } from "../types";
 import { log } from "./log";
+import { sleep } from "./utils";
 
 function getShortcuts(): string[] {
   let res: string[] = [];
@@ -25,6 +26,7 @@ async function spawnShortcut(
   p: string,
   task: Task
 ): Promise<{ shortcutName: string; res: Result<string, string> }> {
+  await sleep(10000);
   return new Promise((resolve) => {
     cp.exec(`explorer "${p}"`, async () => {
       log(`Info:Take shot for ${p}`);
