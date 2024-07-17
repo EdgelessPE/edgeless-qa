@@ -16,7 +16,7 @@ async function spawnPaths(name: string, task: Task): Promise<StdoutShot> {
   });
   return {
     pathName: name,
-    stdout: res.unwrapOr("FAILED_TO_EXECUTE"),
+    stdout: res.val,
   };
 }
 
