@@ -14,6 +14,7 @@ const { refresh } = useTimeout(async (times) => {
     console.log("Error:Worker timeout without response");
   } else {
     // 重启虚拟机再次尝试
+    console.log(`Info:Worker timeout ${times} times, try restart`);
     const stopRes = await stopVM();
     if (stopRes.ok) {
       await sleep(10000);
@@ -27,6 +28,7 @@ const { refresh } = useTimeout(async (times) => {
       console.log("Error:Failed to stop VM when timeout");
     }
   }
+  await stopVM();
   process.exit(2);
 });
 
