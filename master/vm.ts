@@ -1,7 +1,9 @@
 import { Err, Ok, Result } from "ts-results";
 import cp from "child_process";
-import { VM_NAME } from "./constants";
+import { VM_NAME, VM_SNAPSHOT } from "./constants";
 import { sleep } from "./utils";
+import { isDev } from "./env";
+
 async function exec(cmd: string): Promise<Result<null, string>> {
   return new Promise((resolve) => {
     cp.exec(cmd, (error, stdout, stderr) => {
@@ -14,7 +16,8 @@ async function exec(cmd: string): Promise<Result<null, string>> {
   });
 }
 
-async function startVM(backTo?: string): Promise<Result<null, string>> {
+async function startVM(): Promise<Result<null, string>> {
+  const backTo = isDev ? undefined : VM_SNAPSHOT;
   if (backTo) {
     // 回滚虚拟机快照
     const bRes = await exec(`VboxManage snapshot ${VM_NAME} restore ${backTo}`);

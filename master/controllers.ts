@@ -15,7 +15,7 @@ async function beginATask(
   const get = taskManager.get();
   if (get.some) {
     console.log(`Info:Start task ${get.val.scope}/${get.val.nepName}`);
-    return (await startVM(isDev ? undefined : VM_SNAPSHOT)).map(() => false);
+    return (await startVM()).map(() => false);
   } else {
     console.log(`Info:No tasks left`);
     return new Ok(true);
