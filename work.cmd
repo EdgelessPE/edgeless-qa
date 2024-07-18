@@ -1,4 +1,4 @@
 git pull
-::yarn
+::pnpm install
 ::freshclam
-yarn worker
+pnpm worker
