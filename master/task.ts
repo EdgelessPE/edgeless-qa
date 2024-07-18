@@ -53,7 +53,7 @@ export class TaskManager {
     }
   }
   finish() {
-    console.log(`Info:Finish task ${this.index}`);
+    console.log(`Info:Finish task ${this.index + 1}`);
     this.index++;
     return this.index < this.tasks.length;
   }

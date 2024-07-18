@@ -14,7 +14,11 @@ async function beginATask(
 ): Promise<Result<boolean, string>> {
   const get = taskManager.get();
   if (get.some) {
-    console.log(`Info:Start task ${get.val.scope}/${get.val.nepName}`);
+    console.log(
+      `Info:Start task ${get.val.scope}/${get.val.nepName} (${
+        taskManager.index + 1
+      }/${taskManager.tasks.length})`
+    );
     return (await startVM()).map(() => false);
   } else {
     console.log(`Info:No tasks left`);
