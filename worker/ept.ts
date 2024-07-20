@@ -24,7 +24,7 @@ async function exec(
     setTimeout(() => {
       const cons = timeoutIsOk ? Ok : Err;
       resolve(new cons("Execution timeout"));
-    }, 3 * 60000);
+    }, (timeoutIsOk ? 1 : 3) * 60000);
     // 执行 ept 命令
     cp.exec(cmd, { cwd }, (error, stdout, stderr) => {
       const passed = (Date.now() - start) / 1000;
