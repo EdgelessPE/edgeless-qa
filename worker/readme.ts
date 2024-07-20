@@ -66,8 +66,13 @@ function genReadme(payload: {
     afterInstall.console.includes("Error") ||
     afterUninstall.console.includes("Error");
 
+  // 是否有快捷方式或 PATH
+  const noCreation =
+    installed.shortcutsAdded.length === 0 && installed.pathsAdded.length === 0;
+
   return `# ${scope}/${nepName}/${fileName} 测试结果
 ${hasError ? "> 警告：控制台输出中有 `Error`\n" : ""}
+${noCreation ? "> 警告：既没有快捷方式也没有 PATH 被添加\n" : ""}
 
 * 测试时间：${time}
 * 测试机：Edgeless QA
