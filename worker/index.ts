@@ -12,6 +12,7 @@ import { log } from "./log";
 import { getPaths, spawnPaths } from "./path";
 import { scan } from "./calm";
 import { FLAGS } from "./constants";
+import { homedir } from "os";
 
 async function runner(task: Task): Promise<EndReq["result"]> {
   // 下载测试包
@@ -21,6 +22,7 @@ async function runner(task: Task): Promise<EndReq["result"]> {
   if (dRes.err) return dRes;
   const nepPath = dRes.unwrap();
   const pureName = nepName;
+  const installDir = path.join(homedir(), scope, nepName);
 
   // 生成 appdata 快照
   const installedAppdataShot = giantScanner();
@@ -49,7 +51,7 @@ async function runner(task: Task): Promise<EndReq["result"]> {
 
   // 安全扫描
   if (FLAGS.SECURE_CHECK) {
-    const badFilesRes = await scan(nepMeta.temp_dir);
+    const badFilesRes = await scan(installDir);
     if (badFilesRes.err) return badFilesRes;
     const badFiles = badFilesRes.unwrap();
     if (badFiles.length > 0) {
@@ -113,7 +115,7 @@ async function runner(task: Task): Promise<EndReq["result"]> {
   // 生成 meta
   const meta: Meta = {
     installed: installedMeta,
-    uninstalled: genUninstalledMeta(nepMeta.temp_dir, added),
+    uninstalled: genUninstalledMeta(installDir, added),
     nep: nepMeta,
   };
 

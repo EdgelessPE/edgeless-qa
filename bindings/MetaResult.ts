@@ -2,4 +2,8 @@
 import type { GlobalPackage } from "./GlobalPackage";
 import type { Permission } from "./Permission";
 
-export interface MetaResult { temp_dir: string, permissions: Array<Permission>, workflows: Array<string>, package: GlobalPackage, }
+export interface MetaResult {
+  permissions: Array<Permission>;
+  workflows: Array<string>;
+  package: GlobalPackage;
+}

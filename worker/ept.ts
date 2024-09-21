@@ -5,6 +5,9 @@ import { MetaResult } from "../bindings/MetaResult";
 import { runAuxiliary } from "./ahk";
 import { sleep } from "./utils";
 import { AuxiliaryStage, Task } from "../types";
+import { readFile } from "node:fs/promises";
+import toml from "smol-toml";
+import path from "path";
 
 async function exec(
   cmd: string,
@@ -80,14 +83,14 @@ async function eptMeta(
   name: string,
   task: Task
 ): Promise<Result<MetaResult, string>> {
-  const res = await exec(`ept meta "${name}"`, task, {
+  const tomlFileName = `${name}.toml`;
+  const res = await exec(`ept meta "${name}" "${tomlFileName}"`, task, {
     cwd: "./ept",
   });
   if (res.err) return res;
   try {
-    const validJsonStartIndex = res.val.indexOf("{");
-    const jsonBody = res.val.slice(validJsonStartIndex);
-    return new Ok(JSON.parse(jsonBody));
+    const text = await readFile(path.join("./ept", tomlFileName));
+    return new Ok(toml.parse(text.toString()) as any);
   } catch (e) {
     return new Err(
       `Error:Failed to parse output as meta : ${e}, output : ${res.val}`
