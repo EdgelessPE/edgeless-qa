@@ -1,24 +1,24 @@
-import { Meta } from "../types";
-import { getShortcuts } from "./shortcut";
+import fs from "node:fs";
+import type { Meta } from "../types";
 import { getPaths } from "./path";
-import fs from "fs";
+import { getShortcuts } from "./shortcut";
 
 function genInstalledMeta(installedPath: string): Meta["installed"] {
-  return {
-    at: installedPath,
-    shortcutsAdded: getShortcuts(),
-    pathsAdded: getPaths(),
-  };
+	return {
+		at: installedPath,
+		shortcutsAdded: getShortcuts(),
+		pathsAdded: getPaths(),
+	};
 }
 
 function genUninstalledMeta(
-  installedPath: string,
-  added: string[]
+	installedPath: string,
+	added: string[],
 ): Meta["uninstalled"] {
-  return {
-    appRemoved: !fs.existsSync(installedPath),
-    appData: added,
-  };
+	return {
+		appRemoved: !fs.existsSync(installedPath),
+		appData: added,
+	};
 }
 
 export { genInstalledMeta, genUninstalledMeta };

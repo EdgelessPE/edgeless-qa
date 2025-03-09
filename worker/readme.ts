@@ -1,76 +1,76 @@
-import { Meta, StdoutShot, Task } from "../types";
 import dayjs from "dayjs";
+import type { Meta, StdoutShot, Task } from "../types";
 import { exportLog } from "./log";
 
 export interface RenderPicProps {
-  picName: string;
-  shortcutName?: string;
+	picName: string;
+	shortcutName?: string;
 }
 
 function renderPics(pics: RenderPicProps[]): string {
-  let res = "";
-  for (const { picName, shortcutName } of pics) {
-    if (shortcutName) {
-      res += `* 运行 \`${shortcutName}\`\n    `;
-    }
-    res += `![shortcutName](${picName})\n`;
-  }
-  return res;
+	let res = "";
+	for (const { picName, shortcutName } of pics) {
+		if (shortcutName) {
+			res += `* 运行 \`${shortcutName}\`\n    `;
+		}
+		res += `![shortcutName](${picName})\n`;
+	}
+	return res;
 }
 
 function renderStdouts(outs: StdoutShot[]): string {
-  let res = "";
-  for (const { pathName, stdout } of outs) {
-    if (pathName) {
-      res += `* 运行 \`${pathName} help\`\n`;
-    }
-    res += `\`\`\`\n${stdout}\n\`\`\`\n`;
-  }
-  return res;
+	let res = "";
+	for (const { pathName, stdout } of outs) {
+		if (pathName) {
+			res += `* 运行 \`${pathName} help\`\n`;
+		}
+		res += `\`\`\`\n${stdout}\n\`\`\`\n`;
+	}
+	return res;
 }
 
 function genReadme(payload: {
-  task: Task;
-  afterInstall: {
-    shot: string;
-    console: string;
-  };
-  onRun: {
-    shots: RenderPicProps[];
-    stdouts: StdoutShot[];
-  };
-  afterUninstall: {
-    shot: string;
-    console: string;
-  };
-  meta: Meta;
+	task: Task;
+	afterInstall: {
+		shot: string;
+		console: string;
+	};
+	onRun: {
+		shots: RenderPicProps[];
+		stdouts: StdoutShot[];
+	};
+	afterUninstall: {
+		shot: string;
+		console: string;
+	};
+	meta: Meta;
 }) {
-  const {
-    task: { scope, nepName, fileName },
-    afterInstall,
-    onRun,
-    afterUninstall,
-    meta,
-  } = payload;
-  const time = dayjs().format("YYYY/MM/DD HH:mm:ss");
-  const { installed, uninstalled, nep } = meta;
+	const {
+		task: { scope, nepName, fileName },
+		afterInstall,
+		onRun,
+		afterUninstall,
+		meta,
+	} = payload;
+	const time = dayjs().format("YYYY/MM/DD HH:mm:ss");
+	const { installed, uninstalled, nep } = meta;
 
-  // 判断是否 call_installer
-  let have_call_installer = false;
-  if (nep.permissions.find((item) => item.key === "execute_installer")) {
-    have_call_installer = true;
-  }
+	// 判断是否 call_installer
+	let have_call_installer = false;
+	if (nep.permissions.find((item) => item.key === "execute_installer")) {
+		have_call_installer = true;
+	}
 
-  // 判断是否存在 Error
-  const hasError =
-    afterInstall.console.includes("Error") ||
-    afterUninstall.console.includes("Error");
+	// 判断是否存在 Error
+	const hasError =
+		afterInstall.console.includes("Error") ||
+		afterUninstall.console.includes("Error");
 
-  // 是否有快捷方式或 PATH
-  const noCreation =
-    installed.shortcutsAdded.length === 0 && installed.pathsAdded.length === 0;
+	// 是否有快捷方式或 PATH
+	const noCreation =
+		installed.shortcutsAdded.length === 0 && installed.pathsAdded.length === 0;
 
-  return `# ${scope}/${nepName}/${fileName} 测试结果
+	return `# ${scope}/${nepName}/${fileName} 测试结果
 ${hasError ? "> 警告：控制台输出中有 `Error`\n" : ""}
 ${noCreation ? "> 警告：既没有快捷方式也没有 PATH 被添加\n" : ""}
 
@@ -98,10 +98,10 @@ ${renderPics(onRun.shots)}
 ${renderStdouts(onRun.stdouts)}
 
 ## 卸载残留${
-    have_call_installer
-      ? "\n> 备注：此包调用了安装器用于安装和卸载需要人工操作，因此在 QA 报告中出现卸载残留属于正常情况\n"
-      : ""
-  }
+		have_call_installer
+			? "\n> 备注：此包调用了安装器用于安装和卸载需要人工操作，因此在 QA 报告中出现卸载残留属于正常情况\n"
+			: ""
+	}
 ${uninstalled.appRemoved ? "" : "* **app 目录**\n"}
 ${uninstalled.appData.map((name) => `* \`${name}\``).join("\n")}
 
