@@ -1,8 +1,7 @@
 {
 	"name": "edgeless-qa",
 	"version": "1.0.0",
-	"main": "index.js",
-	"author": "L0serj3rry <dsyourshy@qq.com>",
+	"author": "Cno <dsyourshy@qq.com>",
 	"license": "MIT",
 	"scripts": {
 		"dev": "tsnd --respawn master/index.ts --dev",
