@@ -15,7 +15,7 @@ async function beginATask(
 	const get = taskManager.get();
 	if (get.some) {
 		console.log(
-			`Info:Start task ${get.val.scope}/${get.val.nepName} (${
+			`Info:Start task ${get.val.scope}/${get.val.fileName} (${
 				taskManager.index + 1
 			}/${taskManager.tasks.length})`,
 		);
