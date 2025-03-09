@@ -16,6 +16,7 @@ function getTasks(storage: string): Task[] {
 			res = res.concat(
 				fs
 					.readdirSync(nepDir)
+					.filter((fileName) => fileName.endsWith(".nep"))
 					.filter((fileName) => {
 						const reportDir = path.join(REPORT_DIR, scope, nepName, fileName);
 						const done =
