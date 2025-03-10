@@ -29,7 +29,7 @@ async function exec(
 				const cons = timeoutIsOk ? Ok : Err;
 				resolve(new cons("Execution timeout"));
 			},
-			(timeoutIsOk ? 1 : 3) * 60000,
+			(timeoutIsOk ? 1 : 5) * 60000,
 		);
 		// 执行 ept 命令
 		cp.exec(cmd, { cwd }, (error, stdout, stderr) => {
