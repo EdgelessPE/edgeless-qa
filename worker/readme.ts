@@ -3,17 +3,17 @@ import type { Meta, StdoutShot, Task } from "../types";
 import { exportLog } from "./log";
 
 export interface RenderPicProps {
-	picName: string;
+	picBase64: string;
 	shortcutName?: string;
 }
 
 function renderPics(pics: RenderPicProps[]): string {
 	let res = "";
-	for (const { picName, shortcutName } of pics) {
+	for (const { picBase64, shortcutName } of pics) {
 		if (shortcutName) {
 			res += `* 运行 \`${shortcutName}\`\n    `;
 		}
-		res += `![shortcutName](${picName})\n`;
+		res += `<img src="data:image/webp;base64,${picBase64}" alt="${shortcutName}" />\n`;
 	}
 	return res;
 }
@@ -89,7 +89,7 @@ ${afterInstall.console}
 \`\`\`
 
 ## 安装后截图
-${renderPics([{ picName: afterInstall.shot }])}
+${renderPics([{ picBase64: afterInstall.shot }])}
 
 ## 运行时截图
 ${renderPics(onRun.shots)}
@@ -111,7 +111,7 @@ ${afterUninstall.console}
 \`\`\`
 
 ## 卸载后截图
-${renderPics([{ picName: afterUninstall.shot }])}
+${renderPics([{ picBase64: afterUninstall.shot }])}
 
 ## Meta
 \`\`\`

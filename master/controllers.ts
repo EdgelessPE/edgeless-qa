@@ -52,15 +52,13 @@ async function takeShot(body: TakeShotReq): Promise<Result<string, string>> {
 		return new Err(`Error:Failed to take screenshot : ${sRes.val}`);
 	}
 
-	// 截图保存为 webp
-	const webpName = `${fileStem}.webp`;
+	// 转换为 webp
 	const webp = await sharp(path.join(reportDir, pngName))
 		.webp({ quality: 50 })
 		.toBuffer();
-	await writeFile(path.join(reportDir, webpName), webp as any);
 	await unlink(path.join(reportDir, pngName));
 
-	return new Ok(webpName);
+	return new Ok(webp.toString("base64"));
 }
 
 async function end(
@@ -94,12 +92,12 @@ async function end(
 		console.log(`Error:Worker returned failure : ${result.val}`);
 	} else {
 		// 处理成功
-		const { readme, meta } = result.val;
+		const { readme } = result.val;
 		await writeFile(path.join(reportDir, "README.md"), readme);
-		await writeFile(
-			path.join(reportDir, "meta.json"),
-			JSON.stringify(meta, null, 2),
-		);
+		// await writeFile(
+		// 	path.join(reportDir, "meta.json"),
+		// 	JSON.stringify(meta, null, 2),
+		// );
 	}
 
 	// 关闭虚拟机

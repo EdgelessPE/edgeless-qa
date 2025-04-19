@@ -83,7 +83,7 @@ async function runner(task: Task): Promise<EndReq["result"]> {
 		if (res.res.err) return res.res;
 		SNAPS_onRun.push({
 			shortcutName: res.shortcutName,
-			picName: res.res.unwrap(),
+			picBase64: res.res.unwrap(),
 		});
 	}
 
