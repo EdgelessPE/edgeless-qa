@@ -1,4 +1,5 @@
-import fs from "node:fs";
+import { existsSync } from "node:fs";
+import { writeFile, unlink } from "node:fs/promises";
 import path from "node:path";
 import dayjs from "dayjs";
 import sharp from "sharp";
@@ -32,7 +33,7 @@ async function start(taskManager: TaskManager): Promise<Option<StartRes>> {
 	if (opt.some) {
 		return new Some({
 			task: opt.unwrap(),
-			eptDownload: fs.existsSync(path.join("storage", EPT_BIN))
+			eptDownload: existsSync(path.join("storage", EPT_BIN))
 				? `/storage/${EPT_BIN}`
 				: undefined,
 		});
@@ -53,16 +54,11 @@ async function takeShot(body: TakeShotReq): Promise<Result<string, string>> {
 
 	// 截图保存为 webp
 	const webpName = `${fileStem}.webp`;
-	try {
-		await sharp(path.join(reportDir, pngName))
-			.toFormat("webp", { quality: 50 })
-			.toFile(path.join(reportDir, webpName));
-
-		// 删除 png 文件
-		fs.unlinkSync(path.join(reportDir, pngName));
-	} catch (e) {
-		return new Err(`Error:Failed to convert screenshot to webp : ${e}`);
-	}
+	const webp = await sharp(path.join(reportDir, pngName))
+		.webp({ quality: 50 })
+		.toBuffer();
+	await writeFile(path.join(reportDir, webpName), webp as any);
+	await unlink(path.join(reportDir, pngName));
 
 	return new Ok(webpName);
 }
@@ -94,13 +90,13 @@ async function end(
 	const { result } = body;
 	if (result.err) {
 		// 处理失败
-		fs.writeFileSync(path.join(reportDir, "Error.txt"), result.val);
+		await writeFile(path.join(reportDir, "Error.txt"), result.val);
 		console.log(`Error:Worker returned failure : ${result.val}`);
 	} else {
 		// 处理成功
 		const { readme, meta } = result.val;
-		fs.writeFileSync(path.join(reportDir, "README.md"), readme);
-		fs.writeFileSync(
+		await writeFile(path.join(reportDir, "README.md"), readme);
+		await writeFile(
 			path.join(reportDir, "meta.json"),
 			JSON.stringify(meta, null, 2),
 		);

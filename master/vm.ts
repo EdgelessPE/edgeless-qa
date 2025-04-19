@@ -5,6 +5,7 @@ import { isDev } from "./env";
 import { sleep } from "./utils";
 
 async function exec(cmd: string): Promise<Result<null, string>> {
+	console.log(`Info:Executing cmd: ${cmd}`);
 	return new Promise((resolve) => {
 		cp.exec(cmd, (error, stdout, stderr) => {
 			if (error) {
