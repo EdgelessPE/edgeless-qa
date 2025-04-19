@@ -4,9 +4,9 @@
 	"author": "Cno <dsyourshy@qq.com>",
 	"license": "MIT",
 	"scripts": {
-		"dev": "tsnd --respawn master/index.ts --dev",
-		"master": "ts-node master/index.ts",
-		"worker": "ts-node worker/index.ts",
+		"dev": "tsx watch master/index.ts",
+		"master": "tsx master/index.ts",
+		"worker": "tsx worker/index.ts",
 		"lint": "biome check --write master worker",
 		"preinstall": "npx only-allow pnpm"
 	},
@@ -20,7 +20,6 @@
 		"nodejs-file-downloader": "^4.10.6",
 		"sharp": "^0.34.1",
 		"smol-toml": "^1.3.0",
-		"ts-node": "^10.9.1",
 		"ts-results": "^3.3.0",
 		"tslib": "^2.5.0",
 		"typescript": "^5.8.2"
@@ -31,7 +30,7 @@
 		"@types/clamscan": "^2.0.4",
 		"@types/express": "^5.0.0",
 		"@types/multer": "^1.4.7",
-		"ts-node-dev": "^2.0.0"
+		"tsx": "^4.19.3"
 	},
 	"packageManager": "pnpm@9.12.3"
 }
