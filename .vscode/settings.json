@@ -1,3 +1,4 @@
 {
-	"cSpell.words": ["appdata", "smol"]
+	"cSpell.words": ["appdata", "smol"],
+	"editor.formatOnSave": true
 }

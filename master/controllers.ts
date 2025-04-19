@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import dayjs from "dayjs";
+import sharp from "sharp";
 import { Err, None, Ok, type Option, type Result, Some } from "ts-results";
 import type { EndReq, StartRes, TakeShotReq } from "../types";
 import { EPT_BIN, KEEP_VM_OPEN_WHEN_DEV, VM_SNAPSHOT } from "./constants";
@@ -8,7 +9,6 @@ import { isDev } from "./env";
 import type { TaskManager } from "./task";
 import { getReportDir } from "./utils";
 import { shotVM, startVM, stopVM } from "./vm";
-import sharp from "sharp";
 
 async function beginATask(
 	taskManager: TaskManager,
@@ -53,9 +53,9 @@ async function takeShot(body: TakeShotReq): Promise<Result<string, string>> {
 
 	// 截图保存为 webp
 	const webpName = `${fileStem}.webp`;
-	try{
+	try {
 		await sharp(path.join(reportDir, pngName))
-		.toFormat("webp", { quality: 50 })
+			.toFormat("webp", { quality: 50 })
 			.toFile(path.join(reportDir, webpName));
 
 		// 删除 png 文件
