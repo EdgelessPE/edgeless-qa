@@ -8,6 +8,7 @@ import { isDev } from "./env";
 import type { TaskManager } from "./task";
 import { getReportDir } from "./utils";
 import { shotVM, startVM, stopVM } from "./vm";
+import sharp from "sharp";
 
 async function beginATask(
 	taskManager: TaskManager,
@@ -40,11 +41,30 @@ async function start(taskManager: TaskManager): Promise<Option<StartRes>> {
 }
 
 async function takeShot(body: TakeShotReq): Promise<Result<string, string>> {
-	const fileName = `${body.stage}_${dayjs().format("YY-MM-DD-HH-mm-ss")}.png`;
+	const fileStem = `${body.stage}_${dayjs().format("YY-MM-DD-HH-mm-ss")}`;
 	const reportDir = getReportDir(body.scope, body.nepName, body.fileName);
 
-	const sRes = await shotVM(path.join(reportDir, fileName));
-	return sRes.ok ? new Ok(fileName) : sRes;
+	// 截图保存为 png
+	const pngName = `${fileStem}.png`;
+	const sRes = await shotVM(path.join(reportDir, pngName));
+	if (sRes.err) {
+		return new Err(`Error:Failed to take screenshot : ${sRes.val}`);
+	}
+
+	// 截图保存为 webp
+	const webpName = `${fileStem}.webp`;
+	try{
+		await sharp(path.join(reportDir, pngName))
+		.toFormat("webp", { quality: 50 })
+			.toFile(path.join(reportDir, webpName));
+
+		// 删除 png 文件
+		fs.unlinkSync(path.join(reportDir, pngName));
+	} catch (e) {
+		return new Err(`Error:Failed to convert screenshot to webp : ${e}`);
+	}
+
+	return new Ok(webpName);
 }
 
 async function end(
