@@ -13,7 +13,7 @@ function renderPics(pics: RenderPicProps[]): string {
 		if (shortcutName) {
 			res += `* 运行 \`${shortcutName}\`\n    `;
 		}
-		res += `<img src="data:image/webp;base64,${picBase64}" alt="${shortcutName}" />\n`;
+		res += `<img src="data:image/webp;base64,${picBase64}" />\n`;
 	}
 	return res;
 }
