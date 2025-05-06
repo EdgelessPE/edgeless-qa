@@ -31,7 +31,7 @@ const { refresh } = useTimeout(async (times) => {
 	process.exit(2);
 });
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "100mb" }));
 app.use((_req, _res, next) => {
 	refresh();
 	next();
