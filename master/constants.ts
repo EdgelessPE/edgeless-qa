@@ -1,4 +1,4 @@
-export const PORT = 3001;
+export const PORT = 4022;
 export const TASK_DIR = "./storage";
 export const REPORT_DIR = "./reports";
 export const EPT_BIN = "ept.exe";
