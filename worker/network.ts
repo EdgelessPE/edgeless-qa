@@ -4,21 +4,21 @@ import type { EndReq, StartRes, TakeShotReq } from "../types";
 import { MASTER_ADDRESS } from "./constants";
 import { sleep } from "./utils";
 
-function tsResults(raw: object): any {
-	if (!("val" in raw)) {
+function tsResults(raw: unknown): any {
+	if (typeof raw !== "object" || raw === null || !("val" in raw)) {
 		return raw;
 	}
 	if ("some" in raw && "none" in raw) {
-		if (raw.some) {
-			return new Some(raw.val);
+		if ((raw as any).some) {
+			return new Some((raw as any).val);
 		}
 		return None;
 	}
 	if ("ok" in raw && "err" in raw) {
-		if (raw.ok) {
-			return new Ok(raw.val);
+		if ((raw as any).ok) {
+			return new Ok((raw as any).val);
 		}
-		return new Err(raw.val);
+		return new Err((raw as any).val);
 	}
 
 	return raw;
