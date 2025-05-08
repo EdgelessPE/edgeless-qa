@@ -2,10 +2,10 @@ import cp from "node:child_process";
 import { Err, Ok, type Result } from "ts-results";
 import { VM_NAME, VM_SNAPSHOT } from "./constants";
 import { isDev } from "./env";
-import { sleep } from "./utils";
+import { log, sleep } from "./utils";
 
 async function exec(cmd: string): Promise<Result<null, string>> {
-	console.log(`Info:Executing cmd: ${cmd}`);
+	log(`Info:Executing cmd: ${cmd}`);
 	return new Promise((resolve) => {
 		cp.exec(cmd, (error, stdout, stderr) => {
 			if (error) {

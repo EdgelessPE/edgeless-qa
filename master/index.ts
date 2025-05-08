@@ -4,17 +4,17 @@ import type { EndReq, TakeShotReq } from "../types";
 import { PORT, TASK_DIR } from "./constants";
 import { beginATask, end, start, takeShot } from "./controllers";
 import { TaskManager } from "./task";
-import { sleep, useTimeout } from "./utils";
+import { log, sleep, useTimeout } from "./utils";
 import { startVM, stopVM } from "./vm";
 
 const app = express();
 const taskManager = new TaskManager(TASK_DIR);
 const { refresh } = useTimeout(async (times) => {
 	if (times > 3) {
-		console.log("Error:Worker timeout without response");
+		log("Error:Worker timeout without response");
 	} else {
 		// 重启虚拟机再次尝试
-		console.log(`Info:Worker timeout ${times} times, try restart`);
+		log(`Info:Worker timeout ${times} times, try restart`);
 		const stopRes = await stopVM();
 		if (stopRes.ok) {
 			await sleep(10000);
@@ -22,9 +22,9 @@ const { refresh } = useTimeout(async (times) => {
 			if (startRes.ok) {
 				return;
 			}
-			console.log("Error:Failed to start VM when timeout");
+			log("Error:Failed to start VM when timeout");
 		} else {
-			console.log("Error:Failed to stop VM when timeout");
+			log("Error:Failed to stop VM when timeout");
 		}
 	}
 	await stopVM();
@@ -55,7 +55,7 @@ app.post("/end", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-	console.log(`Master listening on port ${PORT}`);
+	log(`Master listening on port ${PORT}`);
 	beginATask(taskManager).then((lRes) => {
 		if (lRes.err) {
 			console.error(JSON.stringify(lRes, null, 2));

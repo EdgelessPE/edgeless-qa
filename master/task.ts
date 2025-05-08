@@ -3,6 +3,7 @@ import path from "node:path";
 import { None, type Option, Some } from "ts-results";
 import type { Task } from "../types";
 import { REPORT_DIR } from "./constants";
+import { log } from "./utils";
 
 function getTasks(storage: string): Task[] {
 	const list = fs.readdirSync(storage);
@@ -34,7 +35,7 @@ function getTasks(storage: string): Task[] {
 		}
 	}
 
-	console.log(`Info:Got ${res.length} tasks`);
+	log(`Info:Got ${res.length} tasks`);
 	return res;
 }
 
@@ -53,7 +54,7 @@ export class TaskManager {
 		return None;
 	}
 	finish() {
-		console.log(`Info:Finish task ${this.index + 1}`);
+		log(`Info:Finish task ${this.index + 1}`);
 		this.index++;
 		return this.index < this.tasks.length;
 	}

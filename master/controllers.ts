@@ -8,7 +8,7 @@ import type { EndReq, StartRes, TakeShotReq } from "../types";
 import { EPT_BIN, KEEP_VM_OPEN_WHEN_DEV, VM_SNAPSHOT } from "./constants";
 import { isDev } from "./env";
 import type { TaskManager } from "./task";
-import { getReportDir } from "./utils";
+import { getReportDir, log } from "./utils";
 import { shotVM, startVM, stopVM } from "./vm";
 
 async function beginATask(
@@ -16,14 +16,14 @@ async function beginATask(
 ): Promise<Result<boolean, string>> {
 	const get = taskManager.get();
 	if (get.some) {
-		console.log(
+		log(
 			`Info:Start task ${get.val.scope}/${get.val.fileName} (${
 				taskManager.index + 1
 			}/${taskManager.tasks.length})`,
 		);
 		return (await startVM()).map(() => false);
 	}
-	console.log("Info:No tasks left");
+	log("Info:No tasks left");
 	return new Ok(true);
 }
 
@@ -89,7 +89,7 @@ async function end(
 	if (result.err) {
 		// 处理失败
 		await writeFile(path.join(reportDir, "Error.txt"), result.val);
-		console.log(`Error:Worker returned failure : ${result.val}`);
+		log(`Error:Worker returned failure : ${result.val}`);
 	} else {
 		// 处理成功
 		const { readme } = result.val;
@@ -112,7 +112,7 @@ async function end(
 
 	// 步进任务队列
 	if (taskManager.finish()) {
-		console.log("Info:Next");
+		log("Info:Next");
 		const lRes = await beginATask(taskManager);
 		if (lRes.err) {
 			return new Err(
@@ -124,7 +124,7 @@ async function end(
 			);
 		}
 	} else {
-		console.log("Info:End");
+		log("Info:End");
 		return new Ok(true);
 	}
 
