@@ -1,8 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REPORT_DIR, TIMEOUT } from "./constants";
+import dayjs from "dayjs";
 
-function mkdir(p: string) {
+export function mkdir(p: string) {
 	if (!fs.existsSync(p)) {
 		fs.mkdirSync(p, {
 			recursive: true,
@@ -10,13 +11,13 @@ function mkdir(p: string) {
 	}
 }
 
-function getReportDir(scope: string, nepName: string, fileName: string) {
+export function getReportDir(scope: string, nepName: string, fileName: string) {
 	const p = path.join(REPORT_DIR, scope, nepName, fileName);
 	mkdir(p);
 	return p;
 }
 
-async function sleep(ms: number) {
+export async function sleep(ms: number) {
 	return new Promise((resolve) => {
 		setTimeout(resolve, ms);
 	});
@@ -42,4 +43,6 @@ export function useTimeout(onTimeout: (times: number) => void) {
 	return { refresh };
 }
 
-export { getReportDir, sleep };
+export function log(text: string) {
+	console.log(`[${dayjs().format("YYYY-MM-DD HH:mm:ss")}] ${text}`);
+}
