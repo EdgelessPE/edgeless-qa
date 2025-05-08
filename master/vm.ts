@@ -8,6 +8,7 @@ async function exec(cmd: string): Promise<Result<null, string>> {
 	log(`Info:Executing cmd: ${cmd}`);
 	return new Promise((resolve) => {
 		cp.exec(cmd, (error, stdout, stderr) => {
+			log(`Info:stdout: ${stdout}`);
 			if (error) {
 				resolve(new Err(`Error:Failed to exec cmd '${cmd}' : ${stderr}`));
 			} else {
